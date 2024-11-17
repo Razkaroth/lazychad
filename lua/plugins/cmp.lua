@@ -112,6 +112,7 @@ return {
           select = false,
         }),
       })
+      opts = vim.tbl_deep_extend("force", opts, require("nvchad.cmp"))
     end,
   },
 }

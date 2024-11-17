@@ -6,7 +6,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "flexoki",
+  theme = "yoru",
 
   -- hl_override = {
   -- 	Comment = { italic = true },
@@ -28,7 +28,26 @@ M.ui = {
     ]],
     },
   },
+  cmp = {
+    lspkind_text = true,
+    style = "flat_light", -- default/flat_light/flat_dark/atom/atom_colored
+    format_colors = {
+      tailwind = true,
+    },
+  },
+
   tabufline = {},
+  statusline = {
+    enabled = false,
+  },
+}
+
+M.term = {
+  float = {
+    row = 0.2,
+    width = 0.5,
+    height = 0.6,
+  },
 }
 
 return M
