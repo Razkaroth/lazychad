@@ -9,6 +9,7 @@ local themery = require("themery")
 
 local function themery_picker(opts)
   opts = opts or {}
+  
 
   -- Get the current buffer number, content, and filetype
   local bufnr = vim.api.nvim_get_current_buf()
