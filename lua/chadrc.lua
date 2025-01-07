@@ -6,7 +6,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "flexoki",
+  theme = "kanagawa",
 
   -- hl_override = {
   -- 	Comment = { italic = true },
@@ -29,6 +29,7 @@ M.ui = {
     },
   },
   tabufline = {},
+  
 }
 
 return M
