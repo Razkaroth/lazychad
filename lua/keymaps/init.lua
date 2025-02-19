@@ -1,8 +1,9 @@
 -- #region imports
 
-require("config.keymaps.tmux")
-require("config.keymaps.files")
-require("config.keymaps.ui")
+require("keymaps.edit")
+require("keymaps.files")
+require("keymaps.tmux")
+require("keymaps.ui")
 
 --#endregion
 --#region Keymaps
