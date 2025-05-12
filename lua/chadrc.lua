@@ -1,7 +1,7 @@
 local options = {
 
   base46 = {
-    theme = "carbonfox", -- default theme
+    theme = "gruvbox", -- default theme
     hl_add = {},
     hl_override = {},
     integrations = {},

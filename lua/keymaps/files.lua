@@ -7,13 +7,16 @@ map({ "n", "v" }, "<leader>G", "<cmd>LazyGit<cr>", { desc = "General - Git Alche
 
 --#region File Navigation
 
--- Toggle previous & next buffers stored within Harpoon list
-local harpoon = require("harpoon")
-vim.keymap.set("n", "<C-S-P>", function()
-  harpoon:list():prev()
-end, { desc = "Harpoon - Previous & Next" })
-vim.keymap.set("n", "<C-S-N>", function()
-  harpoon:list():next()
-end, { desc = "Harpoon - Previous & Next" })
+-- Do not load harpoon on vscode mode
+if not vim.g.vscode then
+  -- Toggle previous & next buffers stored within Harpoon list
+  local harpoon = require("harpoon")
+  vim.keymap.set("n", "<C-S-P>", function()
+    harpoon:list():prev()
+  end, { desc = "Harpoon - Previous & Next" })
+  vim.keymap.set("n", "<C-S-N>", function()
+    harpoon:list():next()
+  end, { desc = "Harpoon - Previous & Next" })
 
+end
 --#endregion
