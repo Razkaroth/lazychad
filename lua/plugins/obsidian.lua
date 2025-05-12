@@ -78,6 +78,168 @@ return {
         insert_tag = "<C-l>",
       },
     }, 
-    -- see below for full list of options 👇
+
+    mappings = {
+      -- Follow the link under cursor (in a new vsplit if you pass "vsplit")
+      ["<leader>of"] = {
+        action = function()
+          return vim.cmd("ObsidianFollowLink")
+        end,
+        opts = { buffer = true, desc = "Follow link" },
+      },
+
+      -- Create a new note (prompts for title)
+      ["<leader>on"] = {
+        action = function()
+          return vim.cmd("ObsidianNew")
+        end,
+        opts = { buffer = true, desc = "Create a new note" },
+      },
+
+      -- Create a new note from template
+      ["<leader>otn"] = {
+        action = function()
+          return vim.cmd("ObsidianNewFromTemplate")
+        end,
+        opts = { buffer = true, desc = "Create a note from template" },
+      },
+
+      -- Open in the Obsidian app (or focus current note)
+      ["<leader>oo"] = {
+        action = function()
+          return vim.cmd("ObsidianOpen")
+        end,
+        opts = { buffer = true, desc = "Open in Obsidian app" },
+      },
+
+      -- Quick switch (fuzzy-find a note)
+      ["<leader>of"] = {
+        action = function()
+          return vim.cmd("ObsidianQuickSwitch")
+        end,
+        opts = { buffer = true, desc = "Quick switch to a note" },
+      },
+
+      -- Show all backlinks to this note
+      ["<leader>ob"] = {
+        action = function()
+          return vim.cmd("ObsidianBacklinks")
+        end,
+        opts = { buffer = true, desc = "Show backlinks to this note" },
+      },
+
+      -- List or filter tags
+      ["<leader>oT"] = {
+        action = function()
+          return vim.cmd("ObsidianTags")
+        end,
+        opts = { buffer = true, desc = "List or filter tags" },
+      },
+
+      -- Search (or create) notes via ripgrep
+      ["<leader>os"] = {
+        action = function()
+          return vim.cmd("ObsidianSearch")
+        end,
+        opts = { buffer = true, desc = "Search or create notes" },
+      },
+
+      -- Open or create today's daily note (no weekday logic)
+      ["<leader>otd"] = {
+        action = function()
+          return vim.cmd("ObsidianToday")
+        end,
+        opts = { buffer = true, desc = "Open today's daily note" },
+      },
+
+      -- Open or create yesterday’s working-day note
+      ["<leader>oyd"] = {
+        action = function()
+          return vim.cmd("ObsidianYesterday")
+        end,
+        opts = { buffer = true, desc = "Open yesterday's daily note" },
+      },
+
+      -- Open or create tomorrow’s working-day note
+      ["<leader>otw"] = {
+        action = function()
+          return vim.cmd("ObsidianTomorrow")
+        end,
+        opts = { buffer = true, desc = "Open tomorrow's daily note" },
+      },
+
+      -- Picker of daily notes over a range
+      ["<leader>od"] = {
+        action = function()
+          return vim.cmd("ObsidianDailies")
+        end,
+        opts = { buffer = true, desc = "Pick daily notes over a range" },
+      },
+
+      -- Insert a template into the current note
+      ["<leader>otp"] = {
+        action = function()
+          return vim.cmd("ObsidianTemplate")
+        end,
+        opts = { buffer = true, desc = "Insert a template" },
+      },
+
+      -- Show table of contents
+      ["<leader>otc"] = {
+        action = function()
+          return vim.cmd("ObsidianTOC")
+        end,
+        opts = { buffer = true, desc = "Show table of contents" },
+      },
+
+      -- Rename current note & update backlinks
+      ["<leader>or"] = {
+        action = function()
+          return vim.cmd("ObsidianRename")
+        end,
+        opts = { buffer = true, desc = "Rename note and update backlinks" },
+      },
+
+      -- Extract visual selection to new note and link it
+      ["<leader>oe"] = {
+        action = function()
+          return vim.cmd("ObsidianExtractNote")
+        end,
+        opts = { buffer = true, desc = "Extract selection to new note" },
+      },
+
+      -- Collect all links in the buffer
+      ["<leader>ol"] = {
+        action = function()
+          return vim.cmd("ObsidianLinks")
+        end,
+        opts = { buffer = true, desc = "Collect all links in buffer" },
+      },
+
+      -- Paste image from clipboard into vault + markdown link
+      ["<leader>op"] = {
+        action = function()
+          return vim.cmd("ObsidianPasteImg")
+        end,
+        opts = { buffer = true, desc = "Paste image from clipboard" },
+      },
+
+      -- Switch between defined vault workspaces
+      ["<leader>ov"] = {
+        action = function()
+          return vim.cmd("ObsidianWorkspace")
+        end,
+        opts = { buffer = true, desc = "Switch vault" },
+      },
+
+      -- Toggle a checkbox under the cursor
+      ["<leader>oc"] = {
+        action = function()
+          return require("obsidian").util.toggle_checkbox()
+        end,
+        opts = { buffer = true, desc = "Toggle checkbox under cursor" },
+      },
+
+    },
   },
 }
