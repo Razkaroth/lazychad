@@ -28,6 +28,7 @@ return {
     },
 
     notes_subdir = "notes",
+
     templates = {
       folder = "templates",
       date_format = "%Y-%m-%d",
