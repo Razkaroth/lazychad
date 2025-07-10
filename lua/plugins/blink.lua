@@ -34,7 +34,7 @@ return {
                     })
                   end
 
-                  return "[ " .. icon .. " ]" .. ctx.icon_gap
+                  return "[" .. icon .. "] " .. ctx.icon_gap
                 end,
 
                 -- Optionally, use the highlight groups from nvim-web-devicons
