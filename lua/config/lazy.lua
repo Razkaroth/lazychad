@@ -18,15 +18,15 @@ require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     {
-      "LazyVim/LazyVim", 
+      "LazyVim/LazyVim",
       import = "lazyvim.plugins",
       opts = {
-        colorscheme = 'nvchad'
-      }
+        colorscheme = "nvchad",
+      },
     },
-    { import = "config.nvchad"   },
+    { import = "config.nvchad" },
     -- import/override with your plugins
-    { import = "config.disabled"   },
+    { import = "config.disabled" },
     { import = "plugins" },
   },
   defaults = {
@@ -53,11 +53,8 @@ require("lazy").setup({
         -- "netrwPlugin",
         "tarPlugin",
         "tohtml",
-        "tutor",
         "zipPlugin",
       },
     },
   },
 })
-
-
