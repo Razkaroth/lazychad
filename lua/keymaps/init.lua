@@ -4,6 +4,7 @@ require("keymaps.edit")
 require("keymaps.files")
 require("keymaps.tmux")
 require("keymaps.ui")
+require("keymaps.zk")
 
 --#endregion
 --#region Keymaps
