@@ -1,13 +1,19 @@
 local map = vim.keymap.set
 local opts = { noremap = true, silent = false }
 
+local directories = {
+  whisper = "VoidWhispers",
+  record = "ArcanumRecords",
+  chronicle = "Chronicles",
+  etching = "CortexEtchings",
+}
 -- zk configuration
 
 -- Create new notes by type
-map("n", "<leader>znw", "<Cmd>ZkNew { group = 'whisper', title = vim.fn.input('Whisper Title: ') }<CR>", opts)
-map("n", "<leader>znr", "<Cmd>ZkNew { group = 'record', title = vim.fn.input('Record Title: ') }<CR>", opts)
-map("n", "<leader>znc", "<Cmd>ZkNew { group = 'chronicle' }<CR>", opts)
-map("n", "<leader>zne", "<Cmd>ZkNew { group = 'etching', title = vim.fn.input('Etching Title: ') }<CR>", opts)
+map("n", "<leader>znw", "<Cmd>ZkNew { group = 'nvimWhisper', title = vim.fn.input('Whisper Title: ') }<CR>", opts)
+map("n", "<leader>znr", "<Cmd>ZkNew { group = 'nvimRecord', title = vim.fn.input('Record Title: ') }<CR>", opts)
+map("n", "<leader>znc", "<Cmd>ZkNew { group = 'nvimChronicle' }<CR>", opts)
+map("n", "<leader>zne", "<Cmd>ZkNew { group = 'nvimEtching', title = vim.fn.input('Etching Title: ') }<CR>", opts)
 
 -- Open notes.
 map("n", "<leader>zo", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", opts)
@@ -33,18 +39,38 @@ map("n", "<leader>zf", "<Cmd>ZkNotes { sort = { 'modified' }, match = { vim.fn.i
 -- Search for the notes matching the current visual selection.
 map("v", "<leader>zf", ":'<,'>ZkMatch<CR>", opts)
 
+-- Extract wikilink text from current cursor position
+local function extract_wikilink_text()
+  local line = vim.api.nvim_get_current_line()
+  local col = vim.fn.col(".") - 1 -- Convert to 0-based indexing
+
+  -- Find all wikilink patterns in the line
+  local start_idx = 1
+  while true do
+    local link_start, link_end = line:find("%[%[[^%]]*%]%]", start_idx)
+    if not link_start then
+      break
+    end
+
+    -- Check if cursor is within this link (including the brackets)
+    if col >= link_start - 1 and col <= link_end - 1 then
+      -- Extract text between [[ and ]]
+      local text = line:sub(link_start + 2, link_end - 2)
+      return text:match("^%s*(.-)%s*$") -- Trim whitespace
+    end
+
+    start_idx = link_end + 1
+  end
+
+  -- Fallback to word under cursor if not in a wikilink
+  return vim.fn.expand("<cword>")
+end
+
 -- Smart link navigation: follow definition or create new note
 local function smart_link_goto()
   -- Try LSP definition first
   local params = vim.lsp.util.make_position_params(0, "utf-8")
   local clients = vim.lsp.get_clients({ bufnr = 0 })
-
-  local directories = {
-    whisper = "VoidWhispers",
-    record = "ArcanumRecords",
-    chronicle = "Chronicles",
-    etching = "CortexEtchings",
-  }
 
   if #clients == 0 then
     vim.notify("No LSP client attached", vim.log.levels.WARN)
@@ -55,32 +81,24 @@ local function smart_link_goto()
   vim.lsp.buf_request(0, "textDocument/definition", params, function(err, result, ctx, config)
     if err or not result or vim.tbl_isempty(result) then
       -- No definition found, create new note
-
-      -- Get the word under cursor (potential link text)
-      local word = vim.fn.expand("<cword>")
-      local line = vim.api.nvim_get_current_line()
-      local col = vim.fn.col(".")
-
-      -- Try to extract wikilink text [[text]]
-      local link_text = word
-      local start_pos = line:find("%[%[[^%]]*", col - #word)
-      if start_pos then
-        local end_pos = line:find("%]%]", start_pos)
-        if end_pos then
-          link_text = line:sub(start_pos + 2, end_pos - 1)
-        end
-      end
+      local link_text = extract_wikilink_text()
 
       -- Ask user which type of note to create
-      vim.ui.select({ "whisper", "record", "etching" }, { prompt = "Select note type:" }, function(choice)
-        if choice then
-          -- Use the link text as title
-          vim.cmd(string.format("ZkNew { group = '%s', title = '%s' }", choice, link_text))
+      vim.ui.select(
+        { "Whisper", "Record", "Etching" },
+        { prompt = "Select note type for >" .. link_text .. "<:" },
+        function(choice)
+          if choice then
+            -- Use the link text as title
+            local command = string.format("ZkNew { group = 'nvim%s', title = '%s',  }", choice, link_text)
+            vim.print(command)
+            vim.cmd(command)
+          end
         end
-      end)
+      )
     else
       -- Definition found, go to it
-      vim.lsp.util.jump_to_location(result[1], "utf-8")
+      vim.lsp.util.show_document(result[1], "utf-8", { focus = true })
     end
   end)
 end
