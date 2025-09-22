@@ -66,21 +66,12 @@ local function smart_link_goto()
       
       -- Ask user which type of note to create
       vim.ui.select(
-        { "whisper", "record", "chronicle", "etching" },
+        { "whisper", "record", "etching" },
         { prompt = "Select note type:" },
         function(choice)
           if choice then
-            local handle, path
-            if choice == "chronicle" then
-              -- Chronicle doesn't need title input
-              handle = io.popen('zk nvim-chronicle')
-            else
-              -- Other types use the link text as title
-              handle = io.popen(string.format('zk nvim-%s "%s"', choice, link_text))
-            end
-            path = handle:read("*a"):gsub("%s+", "")
-            handle:close()
-            vim.cmd('edit ' .. path)
+            -- Use the link text as title
+            vim.cmd(string.format("ZkNew { group = '%s', title = '%s' }", choice, link_text))
           end
         end
       )
