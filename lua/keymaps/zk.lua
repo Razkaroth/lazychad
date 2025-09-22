@@ -38,7 +38,14 @@ local function smart_link_goto()
   -- Try LSP definition first
   local params = vim.lsp.util.make_position_params(0, "utf-8")
   local clients = vim.lsp.get_clients({ bufnr = 0 })
-  
+
+  local directories = {
+    whisper = "VoidWhispers",
+    record = "ArcanumRecords",
+    chronicle = "Chronicles",
+    etching = "CortexEtchings",
+  }
+
   if #clients == 0 then
     vim.notify("No LSP client attached", vim.log.levels.WARN)
     return
@@ -48,12 +55,12 @@ local function smart_link_goto()
   vim.lsp.buf_request(0, "textDocument/definition", params, function(err, result, ctx, config)
     if err or not result or vim.tbl_isempty(result) then
       -- No definition found, create new note
-      
+
       -- Get the word under cursor (potential link text)
       local word = vim.fn.expand("<cword>")
       local line = vim.api.nvim_get_current_line()
       local col = vim.fn.col(".")
-      
+
       -- Try to extract wikilink text [[text]]
       local link_text = word
       local start_pos = line:find("%[%[[^%]]*", col - #word)
@@ -63,18 +70,14 @@ local function smart_link_goto()
           link_text = line:sub(start_pos + 2, end_pos - 1)
         end
       end
-      
+
       -- Ask user which type of note to create
-      vim.ui.select(
-        { "whisper", "record", "etching" },
-        { prompt = "Select note type:" },
-        function(choice)
-          if choice then
-            -- Use the link text as title
-            vim.cmd(string.format("ZkNew { group = '%s', title = '%s' }", choice, link_text))
-          end
+      vim.ui.select({ "whisper", "record", "etching" }, { prompt = "Select note type:" }, function(choice)
+        if choice then
+          -- Use the link text as title
+          vim.cmd(string.format("ZkNew { group = '%s', title = '%s' }", choice, link_text))
         end
-      )
+      end)
     else
       -- Definition found, go to it
       vim.lsp.util.jump_to_location(result[1], "utf-8")
@@ -82,4 +85,4 @@ local function smart_link_goto()
   end)
 end
 
-map("n", "<leader>zgd", smart_link_goto, opts)
+map("n", "<leader>zd", smart_link_goto, opts)
