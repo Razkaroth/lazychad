@@ -69,29 +69,17 @@ local function extract_wikilink_text()
   return vim.fn.expand("<cword>")
 end
 
--- Parse frontmatter to extract id
-local function parse_frontmatter(file_path)
-  local file = io.open(file_path, "r")
-  if not file then
-    return nil
+-- Extract filename without extension from file path
+local function get_filename_without_extension(file_path)
+  local filename = file_path:match("([^/\\]+)$") -- Get filename from path
+  if filename then
+    return filename:match("(.+)%..+$") or filename -- Remove extension
   end
-
-  local content = file:read("*all")
-  file:close()
-
-  -- Match YAML frontmatter
-  local frontmatter = content:match("^%-%-%-\n(.-)%-%-%-")
-  if not frontmatter then
-    return nil
-  end
-
-  -- Extract id from frontmatter
-  local id = frontmatter:match("id:%s*([^\n\r]+)")
-  return id and id:match("^%s*(.-)%s*$") -- Trim whitespace
+  return nil
 end
 
--- Update wikilink with id
-local function update_wikilink_with_id(original_buf, original_pos, link_text, note_id)
+-- Update wikilink with filename
+local function update_wikilink_with_filename(original_buf, original_pos, link_text, filename)
   -- Switch back to original buffer
   vim.api.nvim_set_current_buf(original_buf)
   vim.api.nvim_win_set_cursor(0, { original_pos.row + 1, original_pos.col })
@@ -109,8 +97,8 @@ local function update_wikilink_with_id(original_buf, original_pos, link_text, no
 
     -- Check if cursor is within this link
     if col >= link_start - 1 and col <= link_end - 1 then
-      -- Replace the wikilink with id|alias format
-      local new_link = string.format("[[%s|%s]]", note_id, link_text)
+      -- Replace the wikilink with filename|alias format
+      local new_link = string.format("[[%s|%s]]", filename, link_text)
       local new_line = line:sub(1, link_start - 1) .. new_link .. line:sub(link_end + 1)
       vim.api.nvim_set_current_line(new_line)
       return
@@ -152,18 +140,18 @@ local function smart_link_goto()
             local command = string.format("ZkNew { group = 'nvim%s', title = '%s' }", choice, link_text)
             vim.cmd(command)
 
-            -- Wait for the new buffer to load and then extract the id
+            -- Wait for the new buffer to load and then extract the filename
             vim.defer_fn(function()
               local new_buf = vim.api.nvim_get_current_buf()
               local new_buf_path = vim.api.nvim_buf_get_name(new_buf)
               if new_buf_path and new_buf_path ~= "" then
-                local note_id = parse_frontmatter(new_buf_path)
-                if note_id then
-                  update_wikilink_with_id(original_buf, original_pos, link_text, note_id)
+                local filename = get_filename_without_extension(new_buf_path)
+                if filename then
+                  update_wikilink_with_filename(original_buf, original_pos, link_text, filename)
                   -- Return focus to the newly created file
                   vim.api.nvim_set_current_buf(new_buf)
                 else
-                  vim.notify("Could not extract note ID from frontmatter", vim.log.levels.WARN)
+                  vim.notify("Could not extract filename from path", vim.log.levels.WARN)
                 end
               else
                 vim.notify("Could not get new note file path", vim.log.levels.WARN)

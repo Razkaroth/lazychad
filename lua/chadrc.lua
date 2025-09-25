@@ -1,7 +1,7 @@
 local options = {
 
   base46 = {
-    theme = "jabuti", -- default theme
+    theme = "ashes", -- default theme
     hl_add = {},
     hl_override = {},
     integrations = {},
