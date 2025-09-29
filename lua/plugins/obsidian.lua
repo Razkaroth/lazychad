@@ -1,250 +1,74 @@
-return {}
--- This will be replaced by zk-nvim
--- return {
---   "obsidian-nvim/obsidian.nvim",
---   version = "*", -- recommended, use latest release instead of latest commit
---   lazy = true,
---   ft = "markdown",
---   -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
---   -- event = {
---   --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
---   --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
---   --   -- refer to `:h file-pattern` for more examples
---   --   "BufReadPre path/to/my-vault/*.md",
---   --   "BufNewFile path/to/my-vault/*.md",
---   -- },
---   dependencies = {
---     -- Required.
---     "nvim-lua/plenary.nvim",
---
---     -- see above for full list of optional dependencies ☝️
---   },
---   ---@module 'obsidian'
---   ---@type obsidian.config.ClientOpts
---   opts = {
---     workspaces = {
---       {
---         name = "Codex Astartes",
---         path = "/home/raz/vaults/codex-astartes",
---       },
---     },
---     log_level = "info",
---     new_notes_location = "current_dir",
---
---     notes_subdir = "notes",
---
---     templates = {
---       folder = "templates",
---       date_format = "%Y-%m-%d",
---       time_format = "%H:%M",
---       -- A map for custom variables, the key should be the variable and the value a function
---       substitutions = {},
---     },
---     daily_notes = {
---       -- Optional, if you keep daily notes in a separate directory.
---       folder = "notes/dailies",
---       -- Optional, if you want to change the date format for the ID of daily notes.
---       date_format = "%Y-%m-%d",
---       -- Optional, if you want to change the date format of the default alias of daily notes.
---       alias_format = "%B %-d, %Y",
---       -- Optional, default tags to add to each new daily note created.
---       default_tags = { "daily-notes" },
---       -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
---       template = nil,
---       -- Optional, if you want `Obsidian yesterday` to return the last work day or `Obsidian tomorrow` to return the next work day.
---       workdays_only = true,
---     },
---
---     -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
---     completion = {
---       -- Enables completion using nvim_cmp
---       nvim_cmp = false,
---       -- Enables completion using blink.cmp
---       blink = true,
---       -- Trigger completion at 2 chars.
---       min_chars = 1,
---     },
---
---     picker = {
---       -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', 'mini.pick' or 'snacks.pick'.
---       name = "snacks.pick",
---       -- Optional, configure key mappings for the picker. These are the defaults.
---       -- Not all pickers support all mappings.
---       note_mappings = {
---         -- Create a new note from your query.
---         new = "<C-x>",
---         -- Insert a link to the selected note.
---         insert_link = "<C-l>",
---       },
---       tag_mappings = {
---         -- Add tag(s) to current note.
---         tag_note = "<C-x>",
---         -- Insert a tag at the current location.
---         insert_tag = "<C-l>",
---       },
---     },
---
---     mappings = {
---       -- Follow the link under cursor (in a new vsplit if you pass "vsplit")
---       ["<leader>of"] = {
---         action = function()
---           return vim.cmd("ObsidianFollowLink")
---         end,
---         opts = { buffer = true, desc = "Follow link" },
---       },
---
---       -- Create a new note (prompts for title)
---       ["<leader>on"] = {
---         action = function()
---           return vim.cmd("ObsidianNew")
---         end,
---         opts = { buffer = true, desc = "Create a new note" },
---       },
---
---       -- Create a new note from template
---       ["<leader>otn"] = {
---         action = function()
---           return vim.cmd("ObsidianNewFromTemplate")
---         end,
---         opts = { buffer = true, desc = "Create a note from template" },
---       },
---
---       -- Open in the Obsidian app (or focus current note)
---       ["<leader>oo"] = {
---         action = function()
---           return vim.cmd("ObsidianOpen")
---         end,
---         opts = { buffer = true, desc = "Open in Obsidian app" },
---       },
---
---       -- Quick switch (fuzzy-find a note)
---       ["<leader>of"] = {
---         action = function()
---           return vim.cmd("ObsidianQuickSwitch")
---         end,
---         opts = { buffer = true, desc = "Quick switch to a note" },
---       },
---
---       -- Show all backlinks to this note
---       ["<leader>ob"] = {
---         action = function()
---           return vim.cmd("ObsidianBacklinks")
---         end,
---         opts = { buffer = true, desc = "Show backlinks to this note" },
---       },
---
---       -- List or filter tags
---       ["<leader>oT"] = {
---         action = function()
---           return vim.cmd("ObsidianTags")
---         end,
---         opts = { buffer = true, desc = "List or filter tags" },
---       },
---
---       -- Search (or create) notes via ripgrep
---       ["<leader>os"] = {
---         action = function()
---           return vim.cmd("ObsidianSearch")
---         end,
---         opts = { buffer = true, desc = "Search or create notes" },
---       },
---
---       -- Open or create today's daily note (no weekday logic)
---       ["<leader>otd"] = {
---         action = function()
---           return vim.cmd("ObsidianToday")
---         end,
---         opts = { buffer = true, desc = "Open today's daily note" },
---       },
---
---       -- Open or create yesterday’s working-day note
---       ["<leader>oyd"] = {
---         action = function()
---           return vim.cmd("ObsidianYesterday")
---         end,
---         opts = { buffer = true, desc = "Open yesterday's daily note" },
---       },
---
---       -- Open or create tomorrow’s working-day note
---       ["<leader>otw"] = {
---         action = function()
---           return vim.cmd("ObsidianTomorrow")
---         end,
---         opts = { buffer = true, desc = "Open tomorrow's daily note" },
---       },
---
---       -- Picker of daily notes over a range
---       ["<leader>od"] = {
---         action = function()
---           return vim.cmd("ObsidianDailies")
---         end,
---         opts = { buffer = true, desc = "Pick daily notes over a range" },
---       },
---
---       -- Insert a template into the current note
---       ["<leader>otp"] = {
---         action = function()
---           return vim.cmd("ObsidianTemplate")
---         end,
---         opts = { buffer = true, desc = "Insert a template" },
---       },
---
---       -- Show table of contents
---       ["<leader>otc"] = {
---         action = function()
---           return vim.cmd("ObsidianTOC")
---         end,
---         opts = { buffer = true, desc = "Show table of contents" },
---       },
---
---       -- Rename current note & update backlinks
---       ["<leader>or"] = {
---         action = function()
---           return vim.cmd("ObsidianRename")
---         end,
---         opts = { buffer = true, desc = "Rename note and update backlinks" },
---       },
---
---       -- Extract visual selection to new note and link it
---       ["<leader>oe"] = {
---         action = function()
---           return vim.cmd("ObsidianExtractNote")
---         end,
---         opts = { buffer = true, desc = "Extract selection to new note" },
---       },
---
---       -- Collect all links in the buffer
---       ["<leader>ol"] = {
---         action = function()
---           return vim.cmd("ObsidianLinks")
---         end,
---         opts = { buffer = true, desc = "Collect all links in buffer" },
---       },
---
---       -- Paste image from clipboard into vault + markdown link
---       ["<leader>op"] = {
---         action = function()
---           return vim.cmd("ObsidianPasteImg")
---         end,
---         opts = { buffer = true, desc = "Paste image from clipboard" },
---       },
---
---       -- Switch between defined vault workspaces
---       ["<leader>ov"] = {
---         action = function()
---           return vim.cmd("ObsidianWorkspace")
---         end,
---         opts = { buffer = true, desc = "Switch vault" },
---       },
---
---       -- Toggle a checkbox under the cursor
---       ["<leader>oc"] = {
---         action = function()
---           return require("obsidian").util.toggle_checkbox()
---         end,
---         opts = { buffer = true, desc = "Toggle checkbox under cursor" },
---       },
---
---     },
---   },
--- }
+return {
+  "obsidian-nvim/obsidian.nvim",
+  version = "*", -- recommended, use latest release instead of latest commit
+  ft = "markdown",
+  -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
+  -- event = {
+  --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+  --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
+  --   -- refer to `:h file-pattern` for more examples
+  --   "BufReadPre path/to/my-vault/*.md",
+  --   "BufNewFile path/to/my-vault/*.md",
+  -- },
+  ---@module 'obsidian'
+  ---@type obsidian.config
+  opts = {
+    workspaces = {
+      {
+        name = "codex",
+        path = "~/vaults/codex-astartes/",
+      },
+    },
+
+    preferred_link_style = "wiki",
+    open_notes_in = "current",
+    templates = {
+      folder = "obsidian/nvim-templates",
+      substitutions = {
+        yesterday = function()
+          return "" .. os.date("%Y-%m-%d", os.time() - 86400)
+        end,
+        tomorrow = function()
+          return "" .. os.date("%Y-%m-%d", os.time() + 86400)
+        end,
+      },
+
+      customizations = {
+        -- Own journal
+        chronicle = {
+          notes_subdir = "chronicles",
+          note_id_func = function(_)
+            return "" .. os.date("%Y/%Y-%m-%d", os.time())
+          end,
+        },
+        -- fleeting notes
+        whisper = {
+          notes_subdir = "whispers",
+        },
+        -- permanent notes
+        inscription = {
+          notes_subdir = "inscriptions",
+        },
+        -- Reference/literature notes
+        record = {
+          notes_subdir = "archives",
+        },
+        -- Biographical notes
+        profile = {
+          notes_subdir = "profiles",
+        },
+        -- Research/study notes
+        treatise = {
+          notes_subdir = "treatises",
+        },
+        -- External writings
+        proclamation = {
+          notes_subdir = "proclamations",
+        },
+        operation = {
+          notes_subdir = "operations",
+        },
+      },
+    },
+  },
+}

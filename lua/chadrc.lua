@@ -1,7 +1,7 @@
 local options = {
 
   base46 = {
-    theme = "ashes", -- default theme
+    theme = "kanagawa-dragon", -- default theme
     hl_add = {},
     hl_override = {},
     integrations = {},
