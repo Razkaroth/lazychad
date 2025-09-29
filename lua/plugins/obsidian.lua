@@ -31,6 +31,9 @@ return {
         path = "~/vaults/codex-astartes/",
       },
     },
+    picker = {
+      name = "snacks.pick",
+    },
 
     legacy_commands = false,
 
