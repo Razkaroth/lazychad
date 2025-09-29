@@ -32,6 +32,8 @@ return {
       },
     },
 
+    legacy_commands = false,
+
     preferred_link_style = "wiki",
     open_notes_in = "current",
     templates = {
