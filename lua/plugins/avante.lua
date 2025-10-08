@@ -1,3 +1,12 @@
+-- read from ./avante_prompt.md
+local prompt_file = io.open("./avante_prompt.md", "r")
+local defaultAvantePrompt
+if prompt_file then
+  defaultAvantePrompt = prompt_file:read("*a")
+else
+  defaultAvantePrompt = ""
+end
+
 return {
   "yetone/avante.nvim",
   event = "VeryLazy",
@@ -30,7 +39,13 @@ return {
     },
     system_prompt = function()
       local hub = require("mcphub").get_hub_instance()
-      return hub and hub:get_active_servers_prompt() or ""
+      local hub_prompt = hub and hub:get_active_servers_prompt() or ""
+      local final = defaultAvantePrompt .. hub_prompt
+      local debug_file = io.open("debugprompt.md", "w")
+      if debug_file then
+        debug_file:write(final)
+      end
+      return final
     end,
     -- Using function prevents requiring mcphub before it's loaded
     custom_tools = function()

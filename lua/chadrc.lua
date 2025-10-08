@@ -1,7 +1,7 @@
 local options = {
 
   base46 = {
-    theme = "sunrise_breeze", -- default theme
+    theme = "github_light", -- default theme
     hl_add = {},
     hl_override = {},
     integrations = {},
