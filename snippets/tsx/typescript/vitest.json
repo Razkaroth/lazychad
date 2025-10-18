@@ -1,0 +1,44 @@
+{
+  "Vitest describe": {
+    "prefix": "vid",
+    "description": "Vitest describe",
+    "body": ["describe('$0',()=>{", "  $1", "})"]
+  },
+  "Vitest test": {
+    "prefix": "vit",
+    "description": "Vitest test case",
+    "body": ["it('should $1', async ()=>{", "  $0", "}, 2000)"]
+  },
+  "Vitest mock": {
+    "prefix": "vi-mock",
+    "description": "Vitest mock import",
+    "body": [
+      "vi.mock('$1', async (importOriginal)=>{",
+      "cosnt original = await importOriginal('$1')",
+      "return {",
+      "  ...original,",
+      "  $0: vi.fn(),",
+      "}",
+      "})",
+      "",
+      "import { $0 } from '$1",
+      "const $0Stub = vi.mocked($0)"
+    ]
+  },
+  "Vitest BeforeEach": {
+    "prefix": "vibefe",
+    "body": ["beforeEach(async ()=>{", "  vi.resetAllMocks()", "  $0", "})"]
+  },
+  "Vitest AfterEach": {
+    "prefix": "viafe",
+    "body": ["afterEach(async ()=>{", "  $0", "})"]
+  },
+  "Vitest BeforeAll": {
+    "prefix": "vibafe",
+    "body": ["beforeAll(async ()=>{", "  $0", "})"]
+  },
+  "Vitest AfterAll": {
+    "prefix": "viafe",
+    "body": ["afterAll(async ()=>{", "  $0", "})"]
+  }
+}

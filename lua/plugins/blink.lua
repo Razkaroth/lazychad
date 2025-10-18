@@ -4,6 +4,11 @@ return {
     ---@module "blink.cmp"
     ---@type blink.cmp.Config
     opts = {
+      sources = {
+        per_filetype = {
+          codecompanion = { "codecompanion" },
+        },
+      },
       completion = {
         list = {
           selection = {

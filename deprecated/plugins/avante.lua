@@ -1,12 +1,3 @@
--- read from ./avante_prompt.md
-local prompt_file = io.open("./avante_prompt.md", "r")
-local defaultAvantePrompt
-if prompt_file then
-  defaultAvantePrompt = prompt_file:read("*a")
-else
-  defaultAvantePrompt = ""
-end
-
 return {
   "yetone/avante.nvim",
   event = "VeryLazy",
@@ -18,7 +9,7 @@ return {
     auto_suggestions_provider = "copilot", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
     providers = {
       copilot = {
-        model = "gpt-5-mini",
+        model = "claude-haiku-4.5",
       },
     },
     ---Specify the special dual_boost mode
@@ -37,22 +28,29 @@ return {
       prompt = "Based on the two reference outputs below, generate a response that incorporates elements from both but reflects your own judgment and unique perspective. Do not provide any explanation, just give the response directly. Reference Output 1: [{{provider1_output}}], Reference Output 2: [{{provider2_output}}]",
       timeout = 60000, -- Timeout in milliseconds
     },
-    system_prompt = function()
-      local hub = require("mcphub").get_hub_instance()
-      local hub_prompt = hub and hub:get_active_servers_prompt() or ""
-      local final = defaultAvantePrompt .. hub_prompt
-      local debug_file = io.open("debugprompt.md", "w")
-      if debug_file then
-        debug_file:write(final)
-      end
-      return final
-    end,
-    -- Using function prevents requiring mcphub before it's loaded
-    custom_tools = function()
-      return {
-        require("mcphub.extensions.avante").mcp_tool(),
-      }
-    end,
+    -- system_prompt = function()
+    --   local hub = require("mcphub").get_hub_instance()
+    --   local hub_prompt = hub and hub:get_active_servers_prompt() or ""
+    --   return hub_prompt
+    -- end,
+    -- -- Using function prevents requiring mcphub before it's loaded
+    -- custom_tools = function()
+    --   return {
+    --     require("mcphub.extensions.avante").mcp_tool(),
+    --   }
+    -- end,
+    -- disabled_tools = {
+    --   "list_files", -- Built-in file operations
+    --   "search_files",
+    --   "read_file",
+    --   "create_file",
+    --   "rename_file",
+    --   "delete_file",
+    --   "create_dir",
+    --   "rename_dir",
+    --   "delete_dir",
+    --   "bash", -- Built-in terminal access
+    -- },
     behaviour = {
       auto_suggestions = false, -- Experimental stage
       auto_set_highlight_group = true,
@@ -173,19 +171,19 @@ return {
       },
       ft = { "markdown", "Avante" },
     },
-    {
-      "ravitemer/mcphub.nvim",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-      },
-      build = "bun i -g mcp-hub@latest", -- Installs `mcp-hub` node binary globally
-      opts = {
-        extensions = {
-          avante = {
-            make_slash_commands = true, -- make /slash commands from MCP server prompts
-          },
-        },
-      },
-    },
+    -- {
+    --   "ravitemer/mcphub.nvim",
+    --   dependencies = {
+    --     "nvim-lua/plenary.nvim",
+    --   },
+    --   build = "bun i -g mcp-hub@latest", -- Installs `mcp-hub` node binary globally
+    --   opts = {
+    --     extensions = {
+    --       avante = {
+    --         make_slash_commands = true, -- make /slash commands from MCP server prompts
+    --       },
+    --     },
+    --   },
+    -- },
   },
 }

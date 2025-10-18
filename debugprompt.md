@@ -193,18 +193,18 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "additionalProperties": false,
     "type": "object",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "required": [
-      "libraryName"
-    ],
+    "additionalProperties": false,
     "properties": {
       "libraryName": {
         "type": "string",
         "description": "Library name to search for and retrieve a Context7-compatible library ID."
       }
-    }
+    },
+    "required": [
+      "libraryName"
+    ]
   }
   ```
 
@@ -214,13 +214,14 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "additionalProperties": false,
     "type": "object",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "required": [
-      "context7CompatibleLibraryID"
-    ],
+    "additionalProperties": false,
     "properties": {
+      "context7CompatibleLibraryID": {
+        "type": "string",
+        "description": "Exact Context7-compatible library ID (e.g., '/mongodb/docs', '/vercel/next.js', '/supabase/supabase', '/vercel/next.js/v14.3.0-canary.87') retrieved from 'resolve-library-id' or directly from user query in the format '/org/project' or '/org/project/version'."
+      },
       "tokens": {
         "type": "number",
         "description": "Maximum number of tokens of documentation to retrieve (default: 5000). Higher values provide more context but consume more tokens."
@@ -228,12 +229,11 @@ Note: Server names are case sensitive and you should always use the exact full n
       "topic": {
         "type": "string",
         "description": "Topic to focus documentation on (e.g., 'hooks', 'routing')."
-      },
-      "context7CompatibleLibraryID": {
-        "type": "string",
-        "description": "Exact Context7-compatible library ID (e.g., '/mongodb/docs', '/vercel/next.js', '/supabase/supabase', '/vercel/next.js/v14.3.0-canary.87') retrieved from 'resolve-library-id' or directly from user query in the format '/org/project' or '/org/project/version'."
       }
-    }
+    },
+    "required": [
+      "context7CompatibleLibraryID"
+    ]
   }
   ```
 
@@ -247,22 +247,19 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "required": [
-      "entities"
-    ],
-    "additionalProperties": false,
     "type": "object",
+    "additionalProperties": false,
     "properties": {
       "entities": {
+        "type": "array",
         "items": {
-          "required": [
-            "name",
-            "entityType",
-            "observations"
-          ],
-          "additionalProperties": false,
           "type": "object",
+          "additionalProperties": false,
           "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the entity"
+            },
             "entityType": {
               "type": "string",
               "description": "The type of the entity"
@@ -273,16 +270,19 @@ Note: Server names are case sensitive and you should always use the exact full n
               },
               "type": "array",
               "description": "An array of observation contents associated with the entity"
-            },
-            "name": {
-              "type": "string",
-              "description": "The name of the entity"
             }
-          }
-        },
-        "type": "array"
+          },
+          "required": [
+            "name",
+            "entityType",
+            "observations"
+          ]
+        }
       }
-    }
+    },
+    "required": [
+      "entities"
+    ]
   }
   ```
 
@@ -292,22 +292,19 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "required": [
-      "relations"
-    ],
-    "additionalProperties": false,
     "type": "object",
+    "additionalProperties": false,
     "properties": {
       "relations": {
+        "type": "array",
         "items": {
-          "required": [
-            "from",
-            "to",
-            "relationType"
-          ],
-          "additionalProperties": false,
           "type": "object",
+          "additionalProperties": false,
           "properties": {
+            "from": {
+              "type": "string",
+              "description": "The name of the entity where the relation starts"
+            },
             "to": {
               "type": "string",
               "description": "The name of the entity where the relation ends"
@@ -315,16 +312,19 @@ Note: Server names are case sensitive and you should always use the exact full n
             "relationType": {
               "type": "string",
               "description": "The type of the relation"
-            },
-            "from": {
-              "type": "string",
-              "description": "The name of the entity where the relation starts"
             }
-          }
-        },
-        "type": "array"
+          },
+          "required": [
+            "from",
+            "to",
+            "relationType"
+          ]
+        }
       }
-    }
+    },
+    "required": [
+      "relations"
+    ]
   }
   ```
 
@@ -334,37 +334,37 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "required": [
-      "observations"
-    ],
-    "additionalProperties": false,
     "type": "object",
+    "additionalProperties": false,
     "properties": {
       "observations": {
+        "type": "array",
         "items": {
-          "required": [
-            "entityName",
-            "contents"
-          ],
-          "additionalProperties": false,
           "type": "object",
+          "additionalProperties": false,
           "properties": {
+            "entityName": {
+              "type": "string",
+              "description": "The name of the entity to add the observations to"
+            },
             "contents": {
               "items": {
                 "type": "string"
               },
               "type": "array",
               "description": "An array of observation contents to add"
-            },
-            "entityName": {
-              "type": "string",
-              "description": "The name of the entity to add the observations to"
             }
-          }
-        },
-        "type": "array"
+          },
+          "required": [
+            "entityName",
+            "contents"
+          ]
+        }
       }
-    }
+    },
+    "required": [
+      "observations"
+    ]
   }
   ```
 
@@ -374,11 +374,8 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "required": [
-      "entityNames"
-    ],
-    "additionalProperties": false,
     "type": "object",
+    "additionalProperties": false,
     "properties": {
       "entityNames": {
         "items": {
@@ -387,7 +384,10 @@ Note: Server names are case sensitive and you should always use the exact full n
         "type": "array",
         "description": "An array of entity names to delete"
       }
-    }
+    },
+    "required": [
+      "entityNames"
+    ]
   }
   ```
 
@@ -397,37 +397,37 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "required": [
-      "deletions"
-    ],
-    "additionalProperties": false,
     "type": "object",
+    "additionalProperties": false,
     "properties": {
       "deletions": {
+        "type": "array",
         "items": {
-          "required": [
-            "entityName",
-            "observations"
-          ],
-          "additionalProperties": false,
           "type": "object",
+          "additionalProperties": false,
           "properties": {
-            "entityName": {
-              "type": "string",
-              "description": "The name of the entity containing the observations"
-            },
             "observations": {
               "items": {
                 "type": "string"
               },
               "type": "array",
               "description": "An array of observations to delete"
+            },
+            "entityName": {
+              "type": "string",
+              "description": "The name of the entity containing the observations"
             }
-          }
-        },
-        "type": "array"
+          },
+          "required": [
+            "entityName",
+            "observations"
+          ]
+        }
       }
-    }
+    },
+    "required": [
+      "deletions"
+    ]
   }
   ```
 
@@ -437,22 +437,18 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "required": [
-      "relations"
-    ],
-    "additionalProperties": false,
     "type": "object",
+    "additionalProperties": false,
     "properties": {
       "relations": {
         "items": {
-          "required": [
-            "from",
-            "to",
-            "relationType"
-          ],
-          "additionalProperties": false,
           "type": "object",
+          "additionalProperties": false,
           "properties": {
+            "from": {
+              "type": "string",
+              "description": "The name of the entity where the relation starts"
+            },
             "to": {
               "type": "string",
               "description": "The name of the entity where the relation ends"
@@ -460,17 +456,21 @@ Note: Server names are case sensitive and you should always use the exact full n
             "relationType": {
               "type": "string",
               "description": "The type of the relation"
-            },
-            "from": {
-              "type": "string",
-              "description": "The name of the entity where the relation starts"
             }
-          }
+          },
+          "required": [
+            "from",
+            "to",
+            "relationType"
+          ]
         },
         "type": "array",
         "description": "An array of relations to delete"
       }
-    }
+    },
+    "required": [
+      "relations"
+    ]
   }
   ```
 
@@ -481,10 +481,10 @@ Note: Server names are case sensitive and you should always use the exact full n
   ```json
   {
     "additionalProperties": false,
-    "type": "object",
     "properties": [
       
-    ]
+    ],
+    "type": "object"
   }
   ```
 
@@ -494,17 +494,17 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "required": [
-      "query"
-    ],
-    "additionalProperties": false,
     "type": "object",
+    "additionalProperties": false,
     "properties": {
       "query": {
         "type": "string",
         "description": "The search query to match against entity names, types, and observation content"
       }
-    }
+    },
+    "required": [
+      "query"
+    ]
   }
   ```
 
@@ -514,11 +514,8 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "required": [
-      "names"
-    ],
-    "additionalProperties": false,
     "type": "object",
+    "additionalProperties": false,
     "properties": {
       "names": {
         "items": {
@@ -527,7 +524,10 @@ Note: Server names are case sensitive and you should always use the exact full n
         "type": "array",
         "description": "An array of entity names to retrieve"
       }
-    }
+    },
+    "required": [
+      "names"
+    ]
   }
   ```
 
@@ -600,11 +600,10 @@ Note: Server names are case sensitive and you should always use the exact full n
       "thoughtNumber",
       "totalThoughts"
     ],
-    "type": "object",
     "properties": {
       "branchFromThought": {
-        "minimum": 1,
         "type": "integer",
+        "minimum": 1,
         "description": "Branching point thought number"
       },
       "branchId": {
@@ -619,30 +618,31 @@ Note: Server names are case sensitive and you should always use the exact full n
         "type": "boolean",
         "description": "Whether another thought step is needed"
       },
-      "thoughtNumber": {
-        "minimum": 1,
-        "type": "integer",
-        "description": "Current thought number"
-      },
       "thought": {
         "type": "string",
         "description": "Your current thinking step"
       },
       "totalThoughts": {
-        "minimum": 1,
         "type": "integer",
+        "minimum": 1,
         "description": "Estimated total thoughts needed"
       },
       "isRevision": {
         "type": "boolean",
         "description": "Whether this revises previous thinking"
       },
-      "revisesThought": {
-        "minimum": 1,
+      "thoughtNumber": {
         "type": "integer",
+        "minimum": 1,
+        "description": "Current thought number"
+      },
+      "revisesThought": {
+        "type": "integer",
+        "minimum": 1,
         "description": "Which thought is being reconsidered"
       }
-    }
+    },
+    "type": "object"
   }
   ```
 
@@ -674,18 +674,18 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "additionalProperties": false,
     "type": "object",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "required": [
-      "libraryName"
-    ],
+    "additionalProperties": false,
     "properties": {
       "libraryName": {
         "type": "string",
         "description": "Library name to search for and retrieve a Context7-compatible library ID."
       }
-    }
+    },
+    "required": [
+      "libraryName"
+    ]
   }
   ```
 
@@ -695,13 +695,14 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "additionalProperties": false,
     "type": "object",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "required": [
-      "context7CompatibleLibraryID"
-    ],
+    "additionalProperties": false,
     "properties": {
+      "context7CompatibleLibraryID": {
+        "type": "string",
+        "description": "Exact Context7-compatible library ID (e.g., '/mongodb/docs', '/vercel/next.js', '/supabase/supabase', '/vercel/next.js/v14.3.0-canary.87') retrieved from 'resolve-library-id' or directly from user query in the format '/org/project' or '/org/project/version'."
+      },
       "tokens": {
         "type": "number",
         "description": "Maximum number of tokens of documentation to retrieve (default: 5000). Higher values provide more context but consume more tokens."
@@ -709,12 +710,11 @@ Note: Server names are case sensitive and you should always use the exact full n
       "topic": {
         "type": "string",
         "description": "Topic to focus documentation on (e.g., 'hooks', 'routing')."
-      },
-      "context7CompatibleLibraryID": {
-        "type": "string",
-        "description": "Exact Context7-compatible library ID (e.g., '/mongodb/docs', '/vercel/next.js', '/supabase/supabase', '/vercel/next.js/v14.3.0-canary.87') retrieved from 'resolve-library-id' or directly from user query in the format '/org/project' or '/org/project/version'."
       }
-    }
+    },
+    "required": [
+      "context7CompatibleLibraryID"
+    ]
   }
   ```
 
@@ -738,15 +738,15 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
     "properties": {
       "projectDir": {
         "type": "string",
         "description": "\nThe root directory of the Convex project. This is usually the editor's workspace directory\nand often includes the 'package.json' file and the 'convex/' folder.\n\nPass this option unless explicitly instructed not to.\n"
       }
     },
-    "additionalProperties": false,
-    "type": "object",
-    "$schema": "http://json-schema.org/draft-07/schema#"
+    "type": "object"
   }
   ```
 
@@ -761,18 +761,26 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "additionalProperties": false,
     "type": "object",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "required": [
-      "deploymentSelector",
-      "tableName",
-      "order"
-    ],
+    "additionalProperties": false,
     "properties": {
       "tableName": {
         "type": "string",
         "description": "The name of the table to read from."
+      },
+      "limit": {
+        "maximum": 1000,
+        "type": "number",
+        "description": "The maximum number of results to return, defaults to 100."
+      },
+      "order": {
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "type": "string",
+        "description": "The order to sort the results in."
       },
       "deploymentSelector": {
         "type": "string",
@@ -781,21 +789,13 @@ Note: Server names are case sensitive and you should always use the exact full n
       "cursor": {
         "type": "string",
         "description": "The cursor to start reading from."
-      },
-      "order": {
-        "description": "The order to sort the results in.",
-        "type": "string",
-        "enum": [
-          "asc",
-          "desc"
-        ]
-      },
-      "limit": {
-        "description": "The maximum number of results to return, defaults to 100.",
-        "type": "number",
-        "maximum": 1000
       }
-    }
+    },
+    "required": [
+      "deploymentSelector",
+      "tableName",
+      "order"
+    ]
   }
   ```
 
@@ -805,18 +805,18 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "additionalProperties": false,
     "type": "object",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "required": [
-      "deploymentSelector"
-    ],
+    "additionalProperties": false,
     "properties": {
       "deploymentSelector": {
         "type": "string",
         "description": "Deployment selector (from the status tool) to read tables from."
       }
-    }
+    },
+    "required": [
+      "deploymentSelector"
+    ]
   }
   ```
 
@@ -832,18 +832,18 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "additionalProperties": false,
     "type": "object",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "required": [
-      "deploymentSelector"
-    ],
+    "additionalProperties": false,
     "properties": {
       "deploymentSelector": {
         "type": "string",
         "description": "Deployment selector (from the status tool) to get function metadata from."
       }
-    }
+    },
+    "required": [
+      "deploymentSelector"
+    ]
   }
   ```
 
@@ -855,28 +855,28 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "additionalProperties": false,
     "type": "object",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "required": [
-      "deploymentSelector",
-      "functionName",
-      "args"
-    ],
+    "additionalProperties": false,
     "properties": {
-      "args": {
+      "functionName": {
         "type": "string",
-        "description": "The argument object to pass to the function, JSON-encoded as a string."
+        "description": "The name of the function to run (e.g. 'path/to/my/module.js:myFunction')."
       },
       "deploymentSelector": {
         "type": "string",
         "description": "Deployment selector (from the status tool) to run the function on."
       },
-      "functionName": {
+      "args": {
         "type": "string",
-        "description": "The name of the function to run (e.g. 'path/to/my/module.js:myFunction')."
+        "description": "The argument object to pass to the function, JSON-encoded as a string."
       }
-    }
+    },
+    "required": [
+      "deploymentSelector",
+      "functionName",
+      "args"
+    ]
   }
   ```
 
@@ -886,18 +886,18 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "additionalProperties": false,
     "type": "object",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "required": [
-      "deploymentSelector"
-    ],
+    "additionalProperties": false,
     "properties": {
       "deploymentSelector": {
         "type": "string",
         "description": "Deployment selector (from the status tool) to list environment variables from."
       }
-    }
+    },
+    "required": [
+      "deploymentSelector"
+    ]
   }
   ```
 
@@ -907,23 +907,23 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "additionalProperties": false,
     "type": "object",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "required": [
-      "deploymentSelector",
-      "name"
-    ],
+    "additionalProperties": false,
     "properties": {
-      "name": {
-        "type": "string",
-        "description": "The name of the environment variable to retrieve."
-      },
       "deploymentSelector": {
         "type": "string",
         "description": "Deployment selector (from the status tool) to get environment variable from."
+      },
+      "name": {
+        "type": "string",
+        "description": "The name of the environment variable to retrieve."
       }
-    }
+    },
+    "required": [
+      "deploymentSelector",
+      "name"
+    ]
   }
   ```
 
@@ -933,15 +933,14 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "additionalProperties": false,
     "type": "object",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "required": [
-      "deploymentSelector",
-      "name",
-      "value"
-    ],
+    "additionalProperties": false,
     "properties": {
+      "name": {
+        "type": "string",
+        "description": "The name of the environment variable to set."
+      },
       "deploymentSelector": {
         "type": "string",
         "description": "Deployment selector (from the status tool) to set environment variable on."
@@ -949,12 +948,13 @@ Note: Server names are case sensitive and you should always use the exact full n
       "value": {
         "type": "string",
         "description": "The value to set for the environment variable."
-      },
-      "name": {
-        "type": "string",
-        "description": "The name of the environment variable to set."
       }
-    }
+    },
+    "required": [
+      "deploymentSelector",
+      "name",
+      "value"
+    ]
   }
   ```
 
@@ -964,23 +964,23 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "additionalProperties": false,
     "type": "object",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "required": [
-      "deploymentSelector",
-      "name"
-    ],
+    "additionalProperties": false,
     "properties": {
-      "name": {
-        "type": "string",
-        "description": "The name of the environment variable to remove."
-      },
       "deploymentSelector": {
         "type": "string",
         "description": "Deployment selector (from the status tool) to remove environment variable from."
+      },
+      "name": {
+        "type": "string",
+        "description": "The name of the environment variable to remove."
       }
-    }
+    },
+    "required": [
+      "deploymentSelector",
+      "name"
+    ]
   }
   ```
 
@@ -1012,23 +1012,23 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "additionalProperties": false,
     "type": "object",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "required": [
-      "deploymentSelector",
-      "query"
-    ],
+    "additionalProperties": false,
     "properties": {
-      "query": {
-        "type": "string",
-        "description": "The query to run. This should be valid JavaScript code that returns a value."
-      },
       "deploymentSelector": {
         "type": "string",
         "description": "Deployment selector (from the status tool) to run the query on."
+      },
+      "query": {
+        "type": "string",
+        "description": "The query to run. This should be valid JavaScript code that returns a value."
       }
-    }
+    },
+    "required": [
+      "deploymentSelector",
+      "query"
+    ]
   }
   ```
 
@@ -1041,34 +1041,34 @@ Note: Server names are case sensitive and you should always use the exact full n
 
   ```json
   {
-    "additionalProperties": false,
     "type": "object",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "required": [
-      "deploymentSelector"
-    ],
+    "additionalProperties": false,
     "properties": {
-      "cursor": {
-        "type": "number",
-        "description": "Optional cursor (in ms) to start reading from. Use 0 to read from the beginning."
+      "entriesLimit": {
+        "maximum": 1000,
+        "exclusiveMinimum": 0,
+        "type": "integer",
+        "description": "Maximum number of log entries to return (from the end). If omitted, returns all available in this chunk."
+      },
+      "tokensLimit": {
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "default": 20000,
+        "description": "Approximate maximum number of tokens to return (applied to the JSON payload). Defaults to 20000."
       },
       "deploymentSelector": {
         "type": "string",
         "description": "Deployment selector (from the status tool) to read logs from."
       },
-      "tokensLimit": {
-        "default": 20000,
-        "exclusiveMinimum": 0,
-        "type": "integer",
-        "description": "Approximate maximum number of tokens to return (applied to the JSON payload). Defaults to 20000."
-      },
-      "entriesLimit": {
-        "exclusiveMinimum": 0,
-        "maximum": 1000,
-        "type": "integer",
-        "description": "Maximum number of log entries to return (from the end). If omitted, returns all available in this chunk."
+      "cursor": {
+        "type": "number",
+        "description": "Optional cursor (in ms) to start reading from. Use 0 to read from the beginning."
       }
-    }
+    },
+    "required": [
+      "deploymentSelector"
+    ]
   }
   ```
 
@@ -1087,19 +1087,19 @@ Neovim MCP server provides a set of tools and resources that integrate with neov
     "required": [
       "code"
     ],
-    "type": "object",
     "properties": {
       "code": {
+        "type": "string",
+        "description": "Lua code to execute:\n\nString Formatting Guide:\n1. Newlines in Code:\n   - Use \\n for new lines in your code\n   - Example: \"local x = 1\\nprint(x)\"\n\n2. Newlines in Output:\n   - Use \\\\n when you want to print newlines\n   - Example: print('Line 1\\\\nLine 2')\n\n3. Complex Data:\n   - Use vim.print() for formatted output\n   - Use vim.inspect() for complex structures\n   - Both handle escaping automatically\n\n4. String Concatenation:\n   - Prefer '..' over string.format()\n   - Example: print('Count: ' .. vim.api.nvim_buf_line_count(0))\n          ",
         "examples": [
           "local bufnr = vim.api.nvim_get_current_buf()\nprint('Current buffer:', bufnr)",
           "print('Buffer Info:\\nNumber: ' .. vim.api.nvim_get_current_buf())",
           "local bufnr = vim.api.nvim_get_current_buf()\nlocal name = vim.api.nvim_buf_get_name(bufnr)\nlocal ft = vim.bo[bufnr].filetype\nlocal lines = vim.api.nvim_buf_line_count(bufnr)\nprint('Buffer Info:\\\\nBuffer Number: ' .. bufnr .. '\\\\nFile Name: ' .. name .. '\\\\nFiletype: ' .. ft .. '\\\\nTotal Lines: ' .. lines)",
           "local info = {\n  buffer = vim.api.nvim_get_current_buf(),\n  name = vim.api.nvim_buf_get_name(0),\n  lines = vim.api.nvim_buf_line_count(0)\n}\nvim.print(info)"
-        ],
-        "type": "string",
-        "description": "Lua code to execute:\n\nString Formatting Guide:\n1. Newlines in Code:\n   - Use \\n for new lines in your code\n   - Example: \"local x = 1\\nprint(x)\"\n\n2. Newlines in Output:\n   - Use \\\\n when you want to print newlines\n   - Example: print('Line 1\\\\nLine 2')\n\n3. Complex Data:\n   - Use vim.print() for formatted output\n   - Use vim.inspect() for complex structures\n   - Both handle escaping automatically\n\n4. String Concatenation:\n   - Prefer '..' over string.format()\n   - Example: print('Count: ' .. vim.api.nvim_buf_line_count(0))\n          "
+        ]
       }
-    }
+    },
+    "type": "object"
   }
   ```
 
@@ -1119,21 +1119,21 @@ Neovim MCP server provides a set of tools and resources that integrate with neov
       "command",
       "cwd"
     ],
-    "type": "object",
     "properties": {
       "cwd": {
-        "default": ".",
         "type": "string",
+        "default": ".",
         "description": "Working directory for the command"
       },
       "command": {
+        "type": "string",
+        "description": "Shell command to execute",
         "examples": [
           "\"ls -la\""
-        ],
-        "type": "string",
-        "description": "Shell command to execute"
+        ]
       }
-    }
+    },
+    "type": "object"
   }
   ```
 
@@ -1146,23 +1146,23 @@ Neovim MCP server provides a set of tools and resources that integrate with neov
     "required": [
       "path"
     ],
-    "type": "object",
     "properties": {
-      "end_line": {
-        "default": -1,
-        "type": "number",
-        "description": "Read until this line (inclusive)"
-      },
       "path": {
         "type": "string",
         "description": "Path to the file to read"
       },
       "start_line": {
-        "default": 1,
         "type": "number",
+        "default": 1,
         "description": "Start reading from this line (1-based index)"
+      },
+      "end_line": {
+        "type": "number",
+        "default": -1,
+        "description": "Read until this line (inclusive)"
       }
-    }
+    },
+    "type": "object"
   }
   ```
 
@@ -1176,17 +1176,17 @@ Neovim MCP server provides a set of tools and resources that integrate with neov
       "path",
       "new_path"
     ],
-    "type": "object",
     "properties": {
-      "new_path": {
-        "type": "string",
-        "description": "Destination path"
-      },
       "path": {
         "type": "string",
         "description": "Source path"
+      },
+      "new_path": {
+        "type": "string",
+        "description": "Destination path"
       }
-    }
+    },
+    "type": "object"
   }
   ```
 
@@ -1199,20 +1199,20 @@ Neovim MCP server provides a set of tools and resources that integrate with neov
     "required": [
       "paths"
     ],
-    "type": "object",
     "properties": {
       "paths": {
+        "type": "array",
         "items": {
           "type": "string"
         },
+        "description": "Array of file paths to read",
         "examples": [
           "file1.txt",
           "/home/path/to/file2.txt"
-        ],
-        "type": "array",
-        "description": "Array of file paths to read"
+        ]
       }
-    }
+    },
+    "type": "object"
   }
   ```
 
@@ -1225,7 +1225,6 @@ Neovim MCP server provides a set of tools and resources that integrate with neov
     "required": [
       "paths"
     ],
-    "type": "object",
     "properties": {
       "paths": {
         "items": {
@@ -1234,7 +1233,8 @@ Neovim MCP server provides a set of tools and resources that integrate with neov
         "type": "array",
         "description": "Array of paths to delete"
       }
-    }
+    },
+    "type": "object"
   }
   ```
 
@@ -1247,23 +1247,23 @@ Neovim MCP server provides a set of tools and resources that integrate with neov
     "required": [
       "pattern"
     ],
-    "type": "object",
     "properties": {
+      "path": {
+        "type": "string",
+        "default": ".",
+        "description": "Directory to search in"
+      },
       "recursive": {
-        "default": true,
         "type": "boolean",
+        "default": true,
         "description": "Search recursively"
       },
       "pattern": {
         "type": "string",
         "description": "Search pattern (e.g. *.lua)"
-      },
-      "path": {
-        "default": ".",
-        "type": "string",
-        "description": "Directory to search in"
       }
-    }
+    },
+    "type": "object"
   }
   ```
 
@@ -1273,14 +1273,14 @@ Neovim MCP server provides a set of tools and resources that integrate with neov
 
   ```json
   {
-    "type": "object",
     "properties": {
       "path": {
-        "default": ".",
         "type": "string",
+        "default": ".",
         "description": "Directory path to list"
       }
-    }
+    },
+    "type": "object"
   }
   ```
 
@@ -1294,17 +1294,17 @@ Neovim MCP server provides a set of tools and resources that integrate with neov
       "path",
       "content"
     ],
-    "type": "object",
     "properties": {
-      "path": {
-        "type": "string",
-        "description": "Path to the file to write"
-      },
       "content": {
         "type": "string",
         "description": "Content to write to the file"
+      },
+      "path": {
+        "type": "string",
+        "description": "Path to the file to write"
       }
-    }
+    },
+    "type": "object"
   }
   ```
 
@@ -1333,7 +1333,6 @@ Neovim MCP server provides a set of tools and resources that integrate with neov
       "path",
       "diff"
     ],
-    "type": "object",
     "properties": {
       "diff": {
         "type": "string",
@@ -1343,7 +1342,8 @@ Neovim MCP server provides a set of tools and resources that integrate with neov
         "type": "string",
         "description": "The path to the file to modify"
       }
-    }
+    },
+    "type": "object"
   }
   ```
 
@@ -1377,23 +1377,23 @@ MCPHub server provides tools and resources to manage the mcphub.nvim neovim plug
 
   ```json
   {
-    "type": "object",
     "properties": {
-      "include_disabled": {
-        "default": true,
-        "type": "boolean",
-        "description": "Whether to include disabled servers in the response (default: true)"
-      },
       "format": {
-        "default": "detailed",
+        "type": "string",
         "enum": [
           "detailed",
           "summary"
         ],
-        "type": "string",
+        "default": "detailed",
         "description": "Response format: 'detailed' for full server info or 'summary' for compact list (default: detailed)"
+      },
+      "include_disabled": {
+        "type": "boolean",
+        "default": true,
+        "description": "Whether to include disabled servers in the response (default: true)"
       }
-    }
+    },
+    "type": "object"
   }
   ```
 
@@ -1407,21 +1407,21 @@ MCPHub server provides tools and resources to manage the mcphub.nvim neovim plug
       "server_name",
       "action"
     ],
-    "type": "object",
     "properties": {
-      "server_name": {
-        "type": "string",
-        "description": "Name of the MCP server to toggle"
-      },
       "action": {
-        "description": "Action to perform. One of 'start' or 'stop'",
-        "type": "string",
         "enum": [
           "start",
           "stop"
-        ]
+        ],
+        "type": "string",
+        "description": "Action to perform. One of 'start' or 'stop'"
+      },
+      "server_name": {
+        "type": "string",
+        "description": "Name of the MCP server to toggle"
       }
-    }
+    },
+    "type": "object"
   }
   ```
 

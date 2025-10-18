@@ -1,0 +1,33 @@
+{
+  "Vitest react imports": {
+    "prefix": "vitest-react-imports",
+    "description": "Vitest react imports",
+    "body": [
+      "import { render, screen } from '@testing-library/react'",
+      "import userEvent from '@testing-library/user-event'"
+    ]
+  },
+  "Vitest react test": {
+    "prefix": "vitest-react-test",
+    "description": "Vitest react test",
+    "body": [
+      "it('should $1', async ()=>{",
+      "  render(<$2/>)",
+      "  const $3 = screen.queryByTestId('$4')",
+      "  $0",
+      "})"
+    ]
+  },
+  "Vitest react test with userEvent": {
+    "prefix": "vitest-react-test-userEvent",
+    "description": "Vitest react test with userEvent",
+    "body": [
+      "it('should $1', async ()=>{",
+      "  render(<$2/>)",
+      "  const $3 = screen.queryByTestId('$4')",
+      "  userEvent.click($3)",
+      "  $0",
+      "})"
+    ]
+  }
+}
