@@ -1,13 +1,15 @@
 return {
   {
     "saghen/blink.cmp",
+    dependencies = {
+      { "Kaiser-Yang/blink-cmp-avante" },
+    },
     ---@module "blink.cmp"
     ---@type blink.cmp.Config
     opts = {
       sources = {
-        per_filetype = {
-          codecompanion = { "codecompanion" },
-        },
+        default = { "avante" },
+        providers = { avante = { module = "blink-cmp-avante", name = "Avante" } },
       },
       completion = {
         list = {

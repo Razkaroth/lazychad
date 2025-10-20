@@ -5,7 +5,7 @@ require("keymaps.files")
 require("keymaps.tmux")
 require("keymaps.ui")
 require("keymaps.obsidian")
-require("keymaps.codecompanion")
+-- require("keymaps.codecompanion")
 --#endregion
 --#region Keymaps
 local map = vim.keymap.map

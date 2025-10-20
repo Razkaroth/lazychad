@@ -36,12 +36,6 @@ return {
     },
     opts = {
 
-      adapters = {
-        acp = {
-          gemini_cli = "gemini_cli",
-        },
-      },
-
       strategies = {
         chat = {
           adapter = {
@@ -93,7 +87,9 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "zbirenbaum/copilot.lua", -- for providers='copilot'
-      "ravitemer/mcphub.nvim",
+      {
+        "ravitemer/mcphub.nvim",
+      },
       {
         "MeanderingProgrammer/render-markdown.nvim",
         ft = { "markdown", "codecompanion" },
