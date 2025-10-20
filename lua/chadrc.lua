@@ -1,7 +1,7 @@
 local options = {
 
   base46 = {
-    theme = "aylin", -- default theme
+    theme = "solarized_dark", -- default theme
     hl_add = {},
     hl_override = {},
     integrations = {},

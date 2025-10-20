@@ -1,96 +1,154 @@
 return {
   {
-    "yetone/avante.nvim",
+    "olimorris/codecompanion.nvim",
+    cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions" },
+    keys = function()
+      return {
+        {
+          "<leader>ap",
+          "<cmd>CodeCompanionActions<CR>",
+          desc = "Open the action palette",
+          mode = { "n", "v" },
+        },
+        {
+          "<leader>ac",
+          "<cmd>CodeCompanionChat Toggle<CR>",
+          desc = "Toggle a chat buffer",
+          mode = { "n", "v" },
+        },
+        {
+          "<leader>aa",
+          "<cmd>CodeCompanionChat Add<CR>",
+          desc = "Add code to a chat buffer",
+          mode = { "v" },
+        },
+        {
+          "<leader>af",
+          "<cmd>CodeCompanion /fix<CR>",
+          desc = "Fix code",
+          mode = { "v" },
+        },
+        {
+          "<leader>ae",
+          "<cmd>CodeCompanion /explain<CR>",
+          desc = "Explain code",
+          mode = { "v" },
+        },
+        {
+          "<leader>ai",
+          ":CodeCompanion ",
+          desc = "Inline chat",
+          mode = { "v" },
+        },
+      }
+    end,
+    opts = {
+
+      strategies = {
+        chat = {
+          adapter = {
+            name = "copilot",
+            model = "gpt-5-mini",
+          },
+          tools = {
+            opts = {
+              auto_submit_errors = true, -- Send any errors to the LLM automatically?
+              auto_submit_success = true, -- Send any successful output to the LLM automatically?
+              default_tools = {
+                "mcp",
+              },
+            },
+          },
+        },
+        inline = {
+          adapter = {
+            name = "copilot",
+            model = "gpt-5-mini",
+          },
+        },
+      },
+      display = {
+        chat = {
+          show_settings = true,
+        },
+        action_palette = {
+          width = 95,
+          height = 10,
+          provider = "default",
+          opts = {
+            show_default_prompt_library = true,
+            title = "CodeCompanion actions",
+          },
+        },
+      },
+
+      extensions = {
+        mcphub = {
+          callback = "mcphub.extensions.codecompanion",
+          opts = {
+            make_vars = true,
+            make_slash_commands = true,
+            show_result_in_chat = true,
+          },
+        },
+      },
+
+      keymaps = {
+        send = {
+          callback = function(chat)
+            vim.cmd("stopinsert")
+            chat:submit()
+            chat:add_buf_message({ role = "llm", content = "" })
+          end,
+          index = 1,
+          description = "Send",
+        },
+      },
+    },
+    config = function(_, opts)
+      local spinner = require("plugins.utils.cc-spinner")
+      local columnmarks = require("plugins.utils.cc-columnmarks")
+
+      spinner:init()
+      columnmarks.setup()
+      require("mcphub").setup()
+
+      require("codecompanion").setup(opts)
+    end,
     dependencies = {
+      "nvim-lua/plenary.nvim",
+      "zbirenbaum/copilot.lua", -- for providers='copilot'
       {
         "ravitemer/mcphub.nvim",
-        dependencies = {
-          "nvim-lua/plenary.nvim",
-        },
-        build = "bun i -g mcp-hub@latest", -- Installs `mcp-hub` node binary globally
+        lazy = false,
+      },
+      {
+        "MeanderingProgrammer/render-markdown.nvim",
+        ft = { "markdown", "codecompanion" },
+      },
+      {
+        "nvim-mini/mini.diff",
+        config = function()
+          local diff = require("mini.diff")
+          diff.setup({
+            -- Disabled by default
+            source = diff.gen_source.none(),
+          })
+        end,
+      },
+      {
+        "HakonHarnes/img-clip.nvim",
         opts = {
-          extensions = {
-            avante = {
-              make_slash_commands = true, -- make /slash commands from MCP server prompts
+          filetypes = {
+            codecompanion = {
+              prompt_for_file_name = false,
+              template = "[Image]($FILE_PATH)",
+              use_absolute_path = true,
             },
           },
         },
       },
     },
-    event = "VeryLazy",
-    opts = {
-      provider = "copilot",
-      selection = {
-        hint_display = "none",
-      },
-      behaviour = {
-        auto_set_keymaps = false,
-      },
-
-      system_prompt = function()
-        local hub = require("mcphub").get_hub_instance()
-        local hub_prompt = hub
-            and "IMPORTANT: you should prioritize the neovim MCP toolset as those are more advanced tools. Fallback to your own only in case of failure \n" .. hub:get_active_servers_prompt()
-          or ""
-        return hub_prompt
-      end,
-      -- Using function prevents requiring mcphub before it's loaded
-      custom_tools = function()
-        return {
-          require("mcphub.extensions.avante").mcp_tool(),
-        }
-      end,
-      -- We prefer Mcp neovim server ones.
-      disabled_tools = {
-        "list_files", -- Built-in file operations
-        "ls",
-        "write_to_file",
-        "replace_in_file",
-        "search_files",
-        "read_file",
-        "create_file",
-        "rename_file",
-        "delete_file",
-        "create_dir",
-        "rename_dir",
-        "delete_dir",
-        "move_path",
-        "copy_path",
-        "delete_path",
-        "bash", -- Built-in terminal access
-      },
-    },
-    cmd = {
-      "AvanteAsk",
-      "AvanteBuild",
-      "AvanteChat",
-      "AvanteClear",
-      "AvanteEdit",
-      "AvanteFocus",
-      "AvanteHistory",
-      "AvanteModels",
-      "AvanteRefresh",
-      "AvanteShowRepoMap",
-      "AvanteStop",
-      "AvanteSwitchProvider",
-      "AvanteToggle",
-    },
-    keys = function()
-      return {
-        { "<leader>aa", "", desc = "Avante" },
-        { "<leader>aaa", "<cmd>AvanteAsk<CR>", desc = "Ask Avante" },
-        { "<leader>aac", "<cmd>AvanteChat<CR>", desc = "Chat with Avante" },
-        { "<leader>aae", "<cmd>AvanteEdit<CR>", desc = "Edit Avante" },
-        { "<leader>aaf", "<cmd>AvanteFocus<CR>", desc = "Focus Avante" },
-        { "<leader>aah", "<cmd>AvanteHistory<CR>", desc = "Avante History" },
-        { "<leader>aam", "<cmd>AvanteModels<CR>", desc = "Select Avante Model" },
-        { "<leader>aan", "<cmd>AvanteChatNew<CR>", desc = "New Avante Chat" },
-        { "<leader>aap", "<cmd>AvanteSwitchProvider<CR>", desc = "Switch Avante Provider" },
-        { "<leader>aar", "<cmd>AvanteRefresh<CR>", desc = "Refresh Avante" },
-        { "<leader>aas", "<cmd>AvanteStop<CR>", desc = "Stop Avante" },
-        { "<leader>aat", "<cmd>AvanteToggle<CR>", desc = "Toggle Avante" },
-      }
-    end,
   },
   {
     "folke/sidekick.nvim",
