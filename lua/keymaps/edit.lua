@@ -4,5 +4,3 @@ local map = vim.keymap.set
 map("n", "<leader>U", ":UndotreeToggle<CR>", { noremap = true, silent = true })
 
 -- Toggle Supermaven
-
-map("n", "<leader>ax", ":SupermavenToggle<CR>", { noremap = true, silent = true, desc = "Toggle Supermaven" })
