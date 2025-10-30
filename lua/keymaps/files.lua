@@ -2,7 +2,6 @@ local map = vim.keymap.set
 
 map({ "n", "i", "v" }, "<C-s>", "<cmd>wa<cr>", { desc = "General - Save all buffers" })
 
-
 map({ "n", "v" }, "<leader>G", "<cmd>LazyGit<cr>", { desc = "General - Git Alchemy" })
 
 --#region File Navigation
@@ -17,6 +16,5 @@ if not vim.g.vscode then
   vim.keymap.set("n", "<C-S-N>", function()
     harpoon:list():next()
   end, { desc = "Harpoon - Previous & Next" })
-
 end
 --#endregion
