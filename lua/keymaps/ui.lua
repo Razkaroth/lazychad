@@ -10,5 +10,12 @@ map({ "n", "v", "i", "t" }, "<A-i>", function()
   require("nvchad.term").toggle({
     pos = "float",
     id = "floatTerm",
+    float_opts = {
+      -- half of empty space in the screen so it's centered
+      row = 0.1,
+      col = 0.1,
+      height = 0.8,
+      width = 0.8,
+    },
   })
 end, { desc = "Terminals - Neofetch" })

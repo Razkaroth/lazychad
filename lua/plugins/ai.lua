@@ -11,31 +11,31 @@ return {
     keys = function()
       return {
         {
-          "<leader>ap",
+          "<leader>acp",
           "<cmd>CodeCompanionActions<CR>",
           desc = "Open the action palette",
           mode = { "n", "v" },
         },
         {
-          "<leader>ac",
+          "<leader>act",
           "<cmd>CodeCompanionChat Toggle<CR>",
           desc = "Toggle a chat buffer",
           mode = { "n", "v" },
         },
         {
-          "<leader>aa",
+          "<leader>aca",
           "<cmd>CodeCompanionChat Add<CR>",
           desc = "Add code to a chat buffer",
           mode = { "v" },
         },
         {
-          "<leader>af",
+          "<leader>acf",
           "<cmd>CodeCompanion /fix<CR>",
           desc = "Fix code",
           mode = { "v" },
         },
         {
-          "<leader>ai",
+          "<leader>aci",
           ":CodeCompanion ",
           desc = "Inline chat",
           mode = { "v" },
@@ -289,7 +289,7 @@ We'll repeat this cycle until the task is completed and the diagnostic from your
     "folke/sidekick.nvim",
     opts = {
       nes = {
-        enabled = false,
+        enabled = true,
       },
     },
     keys = function()
@@ -307,14 +307,14 @@ We'll repeat this cycle until the task is completed and the diagnostic from your
           mode = { "n", "t", "i", "x" },
         },
         {
-          "<leader>asa",
+          "<leader>aa",
           function()
             require("sidekick.cli").toggle()
           end,
           desc = "Sidekick Toggle CLI",
         },
         {
-          "<leader>ass",
+          "<leader>as",
           function()
             require("sidekick.cli").select()
           end,
@@ -323,14 +323,14 @@ We'll repeat this cycle until the task is completed and the diagnostic from your
           desc = "Select CLI",
         },
         {
-          "<leader>asd",
+          "<leader>ad",
           function()
             require("sidekick.cli").close()
           end,
           desc = "Detach a CLI Session",
         },
         {
-          "<leader>ast",
+          "<leader>at",
           function()
             require("sidekick.cli").send({ msg = "{this}" })
           end,
@@ -338,14 +338,14 @@ We'll repeat this cycle until the task is completed and the diagnostic from your
           desc = "Send This",
         },
         {
-          "<leader>asf",
+          "<leader>af",
           function()
             require("sidekick.cli").send({ msg = "{file}" })
           end,
           desc = "Send File",
         },
         {
-          "<leader>asv",
+          "<leader>av",
           function()
             require("sidekick.cli").send({ msg = "{selection}" })
           end,
@@ -353,7 +353,7 @@ We'll repeat this cycle until the task is completed and the diagnostic from your
           desc = "Send Visual Selection",
         },
         {
-          "<leader>asp",
+          "<leader>ap",
           function()
             require("sidekick.cli").prompt()
           end,
