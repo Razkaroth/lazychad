@@ -4,19 +4,52 @@ return {
     ---@module "blink.cmp"
     ---@type blink.cmp.Config
     opts = {
+      -- 7. Appearance settings for better icon spacing
+      appearance = {
+        use_nvim_cmp_as_default = false,
+        nerd_font_variant = "mono",
+      },
+
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
         per_filetype = {
           codecompanion = { "codecompanion" },
+          lua = { "lsp", "path", "snippets", "buffer", "lazydev" },
+        },
+        providers = {
+          -- 7. LazyDev provider for Lua/Neovim development
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.blink",
+            score_offset = 100,
+          },
         },
       },
+
       completion = {
+        -- 1. Auto-brackets support
+        accept = {
+          auto_brackets = {
+            enabled = true,
+          },
+          create_undo_point = true,
+          dot_repeat = true,
+        },
+
         list = {
           selection = {
             preselect = false,
-            auto_insert = false,
+            auto_insert = true,
           },
         },
+
+        -- 2. Documentation window
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 200,
+          treesitter_highlighting = true,
+        },
+
         ghost_text = {
           enabled = true,
         },
@@ -24,6 +57,8 @@ return {
           border = "rounded",
           draw = {
             gap = 1,
+            -- 4. Treesitter syntax highlighting in completion menu
+            treesitter = { "lsp" },
             columns = {
               { "kind_icon", "label", gap = 1 },
               { "kind" },
@@ -46,12 +81,11 @@ return {
                   return "[" .. icon .. "] " .. ctx.icon_gap
                 end,
 
-                -- Optionally, use the highlight groups from nvim-web-devicons
-                -- You can also add the same function for `kind.highlight` if you want to
-                -- keep the highlight groups in sync with the icons.
                 highlight = function(ctx)
                   local hl = ctx.kind_hl
-                  if vim.tbl_contains({ "Path" }, ctx.source_name) then
+                  if vim.tbl_contains({ "Supermaven" }, ctx.source_name) then
+                    hl = "BlinkCmpKindSupermaven"
+                  elseif vim.tbl_contains({ "Path" }, ctx.source_name) then
                     local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
                     if dev_icon then
                       hl = dev_hl
@@ -84,6 +118,36 @@ return {
             },
           },
         },
+      },
+
+      -- 3. Signature help (experimental)
+      signature = {
+        enabled = true,
+      },
+
+      -- 5. Cmdline completion
+      cmdline = {
+        enabled = true,
+        keymap = {
+          preset = "cmdline",
+          ["<Right>"] = false,
+          ["<Left>"] = false,
+        },
+        completion = {
+          list = { selection = { preselect = false } },
+          menu = {
+            auto_show = function(ctx)
+              return vim.fn.getcmdtype() == ":"
+            end,
+          },
+          ghost_text = { enabled = true },
+        },
+      },
+
+      -- 6. Keymaps
+      keymap = {
+        preset = "enter",
+        ["<C-y>"] = { "select_and_accept" },
       },
     },
   },
