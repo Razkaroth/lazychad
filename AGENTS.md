@@ -1,27 +1,29 @@
 # Neovim Configuration - Agent Guidelines
 
 ## Commands
-- **Format Lua code**: `stylua <file_path>`
-- **Check syntax**: `luacheck <file_path>`
-- No test commands found in the codebase
+- **Format**: `stylua <file_path>` or `stylua .` (formats all Lua files)
+- **Lint**: `luacheck <file_path>` (if available, not required)
+- **No tests**: This is a Neovim config - no test suite present
 
 ## Code Style
-- **Indentation**: 2 spaces (see `stylua.toml`)
-- **Line width**: 120 columns maximum
-- **Regions**: Use `--#region` and `--#endregion` for code sections
-- **Function declarations**: Use local functions where possible
-- **Imports**: Group imports at the top of files
-- **Variable naming**: snake_case for variables and functions
-- **Keymaps**: Use `vim.keymap.set` for mapping keys
-- **Error handling**: Use `pcall` for protected calls
+- **Indentation**: 2 spaces, no tabs (`stylua.toml`)
+- **Line width**: 120 columns max
+- **Imports**: Group `local x = require(...)` at top of file, before code
+- **Regions**: Use `--#region` / `--#endregion` to mark logical sections
+- **Types**: Use LuaLS annotations (`---@type`, `---@param`, `---@class`, `---@module`)
+- **Functions**: Prefer `local function name()` for module-local functions
+- **Naming**: snake_case for variables/functions, PascalCase for classes/modules
+- **Error handling**: Use `pcall()` for protected calls to prevent crashes
+- **Comments**: Stylua ignore: `-- stylua: ignore` on line before code to skip
 
 ## Project Structure
-- `/lua/config`: Core configuration files
-- `/lua/keymaps`: Keyboard mapping definitions
-- `/lua/plugins`: Plugin configurations
-- Follows LazyVim convention with custom plugins
+- `/lua/config/`: Core config (keymaps, options, autocmds, lazy.nvim setup)
+- `/lua/keymaps/`: Keymap definitions split by category
+- `/lua/plugins/`: Plugin specs (one plugin per file, auto-loaded by lazy.nvim)
+- `/lua/plugins/utils/`: Utility modules for plugins
+- Follows LazyVim conventions with custom overrides
 
-## Plugin System
-- Uses Lazy.nvim for plugin management
-- Plugin specs defined in separate files in `/lua/plugins`
-- Custom plugin configurations should match existing conventions
+## Plugin Patterns
+- Return table from plugin files: `return { "author/plugin", opts = {...} }`
+- Use `opts` for simple config, `config = function() ... end` for complex setup
+- Keymaps: Define in `keys` table with `desc` for which-key integration

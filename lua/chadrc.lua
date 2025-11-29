@@ -1,7 +1,7 @@
 local options = {
 
   base46 = {
-    theme = "flexoki", -- default theme
+    theme = "monochrome", -- default theme
     hl_add = {},
     hl_override = {},
     integrations = {},

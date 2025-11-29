@@ -299,7 +299,7 @@ We'll repeat this cycle until the task is completed and the diagnostic from your
         { "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
         { "<leader>as", "", desc = "Sidekick", mode = { "n", "v" } },
         {
-          "<c-.>",
+          "<A-,>",
           function()
             require("sidekick.cli").toggle()
           end,
