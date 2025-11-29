@@ -169,7 +169,21 @@ We'll repeat this cycle until the task is completed and the diagnostic from your
     end,
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "zbirenbaum/copilot.lua", -- for providers='copilot'
+      {
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        event = "InsertEnter",
+        opts = {
+          suggestion = { enabled = false }, -- Disabled (using Sidekick NES instead)
+          panel = { enabled = false },
+          filetypes = {
+            markdown = true,
+            yaml = true,
+            gitcommit = true,
+            gitrebase = true,
+          },
+        },
+      },
       {
         "ravitemer/mcphub.nvim",
         lazy = false,
@@ -361,29 +375,6 @@ We'll repeat this cycle until the task is completed and the diagnostic from your
           desc = "Sidekick Select Prompt",
         },
       }
-    end,
-  },
-  {
-    "supermaven-inc/supermaven-nvim",
-    event = "InsertEnter",
-    keys = {
-      { "<leader>aS", "<cmd>SupermavenToggle<CR>", desc = "Toggle Supermaven" },
-    },
-    config = function()
-      require("supermaven-nvim").setup({
-        keymaps = {
-          clear_suggestion = "<C-]>",
-          accept_word = "<C-Tab>",
-          accept_suggestion = "<Tab>",
-        },
-        ignore_filetypes = {}, -- { cpp = true }, -- or { "cpp", }
-        log_level = "info", -- set to "off" to disable logging completely
-        disable_inline_completion = false, -- disables inline completion for use with cmp
-        disable_keymaps = false, -- disables built in keymaps for more manual control
-        condition = function()
-          return false
-        end, -- condition to check for stopping supermaven, `true` means to stop supermaven when the condition is true.
-      })
     end,
   },
 }

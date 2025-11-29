@@ -5,6 +5,7 @@ return {
     ---@type blink.cmp.Config
     opts = {
       sources = {
+        default = { "lsp", "path", "snippets", "buffer" },
         per_filetype = {
           codecompanion = { "codecompanion" },
         },
@@ -13,8 +14,11 @@ return {
         list = {
           selection = {
             preselect = false,
-            auto_insert = true,
+            auto_insert = false,
           },
+        },
+        ghost_text = {
+          enabled = true,
         },
         menu = {
           border = "rounded",
