@@ -122,7 +122,7 @@ We'll repeat this cycle until the task is completed and the diagnostic from your
       },
       display = {
         chat = {
-          show_settings = true,
+          show_settings = false,
         },
         action_palette = {
           width = 95,

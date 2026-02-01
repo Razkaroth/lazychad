@@ -92,7 +92,7 @@ M.new_note_from_template_with_title = function(title, original_buf, original_pos
 
         local template_name = item.text
         ---@type obsidian.Note
-        local note = Note.create({ title = title, template = template_name, should_write = true })
+        local note = Note.create({ id = title, template = template_name, should_write = true })
         note:open({ sync = false })
         picker:close()
 

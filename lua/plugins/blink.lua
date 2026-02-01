@@ -73,9 +73,10 @@ return {
                       icon = dev_icon
                     end
                   else
-                    icon = require("lspkind").symbolic(ctx.kind, {
-                      mode = "symbol",
-                    })
+                    local lspkind_ok, lspkind = pcall(require, "lspkind")
+                    if lspkind_ok and lspkind.symbolic then
+                      icon = lspkind.symbolic(ctx.kind, { mode = "symbol" }) or icon
+                    end
                   end
 
                   return "[" .. icon .. "] " .. ctx.icon_gap
@@ -154,5 +155,11 @@ return {
   -- nvim web-devicons
   { "nvim-tree/nvim-web-devicons", lazy = false },
   --lspkind
-  { "onsails/lspkind-nvim", lazy = false },
+  {
+    "onsails/lspkind-nvim",
+    lazy = false,
+    config = function()
+      require("lspkind").init()
+    end,
+  },
 }
