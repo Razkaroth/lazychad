@@ -11,7 +11,7 @@ return {
       },
 
       sources = {
-        default = { "lsp", "path", "snippets", "buffer" },
+        default = { "lsp", "path", "snippets", "buffer", "99" },
         per_filetype = {
           codecompanion = { "codecompanion" },
           lua = { "lsp", "path", "snippets", "buffer", "lazydev" },
@@ -22,6 +22,11 @@ return {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
             score_offset = 100,
+          },
+          ["99"] = {
+            name = "99",
+            module = "blink.compat.source",
+            async = true,
           },
         },
       },

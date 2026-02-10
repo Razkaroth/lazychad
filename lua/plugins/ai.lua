@@ -6,7 +6,13 @@ local constants = {
 
 return {
   {
+    "hrsh7th/nvim-cmp",
+    lazy = true,
+    config = function() end,
+  },
+  {
     "ThePrimeagen/99",
+    dependencies = { "hrsh7th/nvim-cmp", "saghen/blink.compat" },
     config = function()
       local _99 = require("99")
 
@@ -58,7 +64,7 @@ return {
 
           --- What autocomplete do you use.  We currently only
           --- support cmp right now
-          source = false,
+          source = "cmp",
         },
 
         --- WARNING: if you change cwd then this is likely broken
@@ -83,12 +89,12 @@ return {
       --
       -- likely ill add a mode check and assert on required visual mode
       -- so just prepare for it now
-      vim.keymap.set("v", "<leader>9v", function()
+      vim.keymap.set("v", "<leader>9", function()
         _99.visual()
       end)
 
       --- if you have a request you dont want to make any changes, just cancel it
-      vim.keymap.set("v", "<leader>9s", function()
+      vim.keymap.set("v", "<leader>8", function()
         _99.stop_all_requests()
       end)
     end,
