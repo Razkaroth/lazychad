@@ -26,7 +26,32 @@ def calculate_sum(a: int, b: int) -> int:
 
 
 def my_function():
-    return "Holi"
+    """Return the current date and time formatted for the Mexican Spanish locale."""
+    from datetime import datetime
+    import locale
+
+    original_locale = locale.setlocale(locale.LC_TIME)
+    for locale_name in ("es_MX.UTF-8", "es_MX", "es_ES.UTF-8"):
+        try:
+            locale.setlocale(locale.LC_TIME, locale_name)
+            break
+        except locale.Error:
+            continue
+
+    formatted = datetime.now().strftime("%c")
+    locale.setlocale(locale.LC_TIME, original_locale)
+    return formatted
+
+
+def salutation(name: str) -> str:
+    return f
+
+
+# Test 2: Documentation
+# Try hovering over: calculate_sum
+# Try hovering over: my_function
+#
+#
 
 
 # Test 2: Dictionary/Object completions
