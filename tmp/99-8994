@@ -1,0 +1,9 @@
+def calculate_sum(a: int, b: int) -> int:
+    """Calculate and return the sum of two integers.
+
+    Raises:
+        TypeError: if any operand is not an integer.
+    """
+    if not isinstance(a, int) or not isinstance(b, int):
+        raise TypeError("calculate_sum expects two integers")
+    return a + b

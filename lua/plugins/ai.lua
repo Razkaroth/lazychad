@@ -24,11 +24,11 @@ return {
       _99.setup({
         model = "openai/gpt-5.1-codex-mini",
         -- provider = _99.ClaudeCodeProvider,  -- default: OpenCodeProvider
-        logger = {
-          level = _99.ERROR,
-          path = "/tmp/" .. basename .. ".99.debug",
-          print_on_error = true,
-        },
+        -- logger = {
+        --   level = _99.ERROR,
+        --   path = "/tmp/" .. basename .. ".99.debug",
+        --   print_on_error = true,
+        -- },
 
         --- Completions: #rules and @files in the prompt buffer
         completion = {

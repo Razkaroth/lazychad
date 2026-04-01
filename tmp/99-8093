@@ -1,0 +1,3 @@
+def calculate_square(x: int) -> int:
+    """Return the square of the provided integer."""
+    return x * x

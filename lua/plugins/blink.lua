@@ -3,6 +3,9 @@ return {
     "saghen/blink.cmp",
     ---@module "blink.cmp"
     ---@type blink.cmp.Config
+    init = function()
+      vim.api.nvim_set_hl(0, "BlinkCmpKind99", { link = "Special" })
+    end,
     opts = {
       -- 7. Appearance settings for better icon spacing
       appearance = {
@@ -72,7 +75,10 @@ return {
               kind_icon = {
                 text = function(ctx)
                   local icon = ctx.kind_icon
-                  if vim.tbl_contains({ "Path" }, ctx.source_name) then
+
+                  if ctx.source_name == "99" then
+                    icon = "⦿"
+                  elseif vim.tbl_contains({ "Path" }, ctx.source_name) then
                     local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
                     if dev_icon then
                       icon = dev_icon
@@ -89,7 +95,9 @@ return {
 
                 highlight = function(ctx)
                   local hl = ctx.kind_hl
-                  if vim.tbl_contains({ "Supermaven" }, ctx.source_name) then
+                  if ctx.source_name == "99" then
+                    hl = "BlinkCmpKind99"
+                  elseif vim.tbl_contains({ "Supermaven" }, ctx.source_name) then
                     hl = "BlinkCmpKindSupermaven"
                   elseif vim.tbl_contains({ "Path" }, ctx.source_name) then
                     local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
