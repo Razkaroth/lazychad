@@ -15,6 +15,7 @@ return {
     dependencies = { "hrsh7th/nvim-cmp", "saghen/blink.compat" },
     config = function()
       local _99 = require("99")
+      local map = vim.keymap.set
 
       -- For logging that is to a file if you wish to trace through requests
       -- for reporting bugs, i would not rely on this, but instead the provided
@@ -82,21 +83,58 @@ return {
         },
       })
 
-      -- take extra note that i have visual selection only in v mode
-      -- technically whatever your last visual selection is, will be used
-      -- so i have this set to visual mode so i dont screw up and use an
-      -- old visual selection
-      --
-      -- likely ill add a mode check and assert on required visual mode
-      -- so just prepare for it now
-      vim.keymap.set("v", "<leader>9", function()
+      pcall(vim.keymap.del, "n", "<leader>n")
+      pcall(vim.keymap.del, "v", "<leader>9")
+      pcall(vim.keymap.del, "v", "<leader>8")
+
+      map("n", "<leader>N", function()
+        if Snacks.config.picker and Snacks.config.picker.enabled then
+          Snacks.picker.notifications()
+        else
+          Snacks.notifier.show_history()
+        end
+      end, { desc = "Notification History" })
+
+      map({ "v" }, "<leader>nv", function()
         _99.visual()
-      end)
+      end, { desc = "99 Visual" })
+
+      map("n", "<leader>ns", function()
+        _99.search()
+      end, { desc = "99 Search" })
+
+      map("n", "<leader>nb", function()
+        _99.vibe()
+      end, { desc = "99 Vibe" })
+
+      map("n", "<leader>nt", function()
+        _99.tutorial()
+      end, { desc = "99 Tutorial" })
+
+      map("n", "<leader>no", function()
+        _99.open()
+      end, { desc = "99 Open History" })
+
+      map("n", "<leader>nl", function()
+        _99.view_logs()
+      end, { desc = "99 View Logs" })
+
+      map("n", "<leader>nm", function()
+        require("99.extensions.telescope").select_model()
+      end, { desc = "99 Select Model" })
+
+      map("n", "<leader>np", function()
+        require("99.extensions.telescope").select_provider()
+      end, { desc = "99 Select Provider" })
+
+      map("n", "<leader>nc", function()
+        _99.clear_previous_requests()
+      end, { desc = "99 Clear History" })
 
       --- if you have a request you dont want to make any changes, just cancel it
-      vim.keymap.set("v", "<leader>8", function()
+      map({ "n", "v" }, "<leader>nx", function()
         _99.stop_all_requests()
-      end)
+      end, { desc = "99 Stop Requests" })
     end,
   },
   {
