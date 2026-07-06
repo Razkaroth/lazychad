@@ -8,6 +8,43 @@ _G.setup_tmux_keymaps = function()
     print("Setting up tmux keymaps...")
   end
 
+  if vim.env.HERDR_ENV == "1" then
+    local function nav(wincmd, dir)
+      local prev = vim.api.nvim_get_current_win()
+      vim.cmd("wincmd " .. wincmd)
+      if vim.api.nvim_get_current_win() ~= prev then
+        return
+      end
+
+      if vim.env.HERDR_PANE_ID and vim.env.HERDR_PANE_ID ~= "" then
+        local herdr = vim.env.HERDR_BIN_PATH
+        if herdr == nil or herdr == "" then
+          herdr = "herdr"
+        end
+        vim.fn.system({ herdr, "pane", "focus", "--direction", dir, "--current" })
+      elseif vim.env.TMUX and vim.env.TMUX ~= "" then
+        local tmux = { left = "Left", down = "Down", up = "Up", right = "Right" }
+        pcall(vim.cmd, "TmuxNavigate" .. tmux[dir])
+      end
+    end
+
+    local function herdr_map(lhs, wincmd, dir, desc)
+      map("n", lhs, function()
+        nav(wincmd, dir)
+      end, { silent = true, noremap = true, desc = desc })
+    end
+
+    herdr_map("<C-h>", "h", "left", "General - Navigate left (vim/herdr)")
+    herdr_map("<C-j>", "j", "down", "General - Navigate down (vim/herdr)")
+    herdr_map("<C-k>", "k", "up", "General - Navigate up (vim/herdr)")
+    herdr_map("<C-l>", "l", "right", "General - Navigate right (vim/herdr)")
+
+    if log then
+      print("✅ Herdr keymaps configured successfully!")
+    end
+    return true
+  end
+
   -- Check if commands exist before mapping
   local commands_exist = pcall(function()
     vim.api.nvim_command("TmuxNavigatorProcessList")

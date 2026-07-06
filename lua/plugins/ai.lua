@@ -23,7 +23,7 @@ return {
       local cwd = vim.uv.cwd()
       local basename = vim.fs.basename(cwd)
       _99.setup({
-        model = "openai/gpt-5.1-codex-mini",
+        model = "openai/gpt-5.5",
         -- provider = _99.ClaudeCodeProvider,  -- default: OpenCodeProvider
         -- logger = {
         --   level = _99.ERROR,
@@ -103,7 +103,7 @@ return {
         _99.search()
       end, { desc = "99 Search" })
 
-      map("n", "<leader>nb", function()
+      map("n", "<leader>nv", function()
         _99.vibe()
       end, { desc = "99 Vibe" })
 

@@ -1,7 +1,7 @@
 local options = {
 
   base46 = {
-    theme = "ayu_dark", -- default theme
+    theme = "rxyhn", -- default theme
     hl_add = {},
     hl_override = {},
     integrations = {},
