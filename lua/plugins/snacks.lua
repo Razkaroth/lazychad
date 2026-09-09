@@ -1,7 +1,8 @@
 return {
-  "snacks.nvim",
+  "folke/snacks.nvim",
   opts = {
     dashboard = {
+      enabled = true,
       preset = {
         pick = function(cmd, opts)
           return LazyVim.pick(cmd, opts)()
