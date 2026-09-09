@@ -138,28 +138,75 @@ return {
     end,
   },
   {
-    "Exafunction/windsurf.nvim",
+    "monkoose/neocodeium",
     event = "InsertEnter",
-    dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
-      { "<leader>aS", "<cmd>Codeium Toggle<CR>", desc = "Toggle Codeium" },
-    },
-    opts = {
-      enable_cmp_source = false,
-      enable_chat = false,
-      virtual_text = {
-        enabled = true,
-        -- `<Tab>` is owned by sidekick NES
-        key_bindings = {
-          accept = "<C-A>",
-          accept_word = "<A-A>",
-          accept_line = "<A-L>",
-          clear = "<C-]>",
-          next = "<M-]>",
-          prev = "<M-[>",
-        },
+      {
+        "<leader>aS",
+        function()
+          require("neocodeium.commands").toggle()
+        end,
+        desc = "Toggle NeoCodeium",
+      },
+      {
+        "<A-a>",
+        function()
+          require("neocodeium").accept()
+        end,
+        desc = "Accept suggestion",
+        mode = "i",
+      },
+      {
+        "<A-w>",
+        function()
+          require("neocodeium").accept_word()
+        end,
+        desc = "Accept word",
+        mode = "i",
+      },
+      {
+        "<A-l>",
+        function()
+          require("neocodeium").accept_line()
+        end,
+        desc = "Accept line",
+        mode = "i",
+      },
+      {
+        "<C-]>",
+        function()
+          require("neocodeium").clear()
+        end,
+        desc = "Clear suggestion",
+        mode = "i",
+      },
+      {
+        "<A-n>",
+        function()
+          require("neocodeium").cycle(1)
+        end,
+        desc = "Next suggestion",
+        mode = "i",
+      },
+      {
+        "<A-p>",
+        function()
+          require("neocodeium").cycle(-1)
+        end,
+        desc = "Previous suggestion",
+        mode = "i",
       },
     },
+    config = function()
+      require("neocodeium").setup({
+        -- `<Tab>` is owned by sidekick NES
+        filetypes = {
+          help = false,
+          gitcommit = false,
+          gitrebase = false,
+        },
+      })
+    end,
   },
   {
     "olimorris/codecompanion.nvim",
