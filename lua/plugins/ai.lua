@@ -138,27 +138,28 @@ return {
     end,
   },
   {
-    "supermaven-inc/supermaven-nvim",
+    "Exafunction/windsurf.nvim",
     event = "InsertEnter",
+    dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
-      { "<leader>aS", "<cmd>SupermavenToggle<CR>", desc = "Toggle Supermaven" },
+      { "<leader>aS", "<cmd>Codeium Toggle<CR>", desc = "Toggle Codeium" },
     },
-    config = function()
-      require("supermaven-nvim").setup({
-        keymaps = {
-          clear_suggestion = "<C-]>",
+    opts = {
+      enable_cmp_source = false,
+      enable_chat = false,
+      virtual_text = {
+        enabled = true,
+        -- `<Tab>` is owned by sidekick NES
+        key_bindings = {
+          accept = "<C-A>",
           accept_word = "<A-A>",
-          accept_suggestion = "<C-A>",
+          accept_line = "<A-L>",
+          clear = "<C-]>",
+          next = "<M-]>",
+          prev = "<M-[>",
         },
-        ignore_filetypes = {}, -- { cpp = true }, -- or { "cpp", }
-        log_level = "info", -- set to "off" to disable logging completely
-        disable_inline_completion = false, -- disables inline completion for use with cmp
-        disable_keymaps = false, -- disables built in keymaps for more manual control
-        condition = function()
-          return false
-        end, -- condition to check for stopping supermaven, `true` means to stop supermaven when the condition is true.
-      })
-    end,
+      },
+    },
   },
   {
     "olimorris/codecompanion.nvim",

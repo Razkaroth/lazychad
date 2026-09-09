@@ -3,3 +3,7 @@
 -- Add any additional keymaps here
 
 require("keymaps")
+
+if vim.g.vscode then
+  require("config.vscode")
+end

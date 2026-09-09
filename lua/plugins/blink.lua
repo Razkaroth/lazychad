@@ -97,8 +97,6 @@ return {
                   local hl = ctx.kind_hl
                   if ctx.source_name == "99" then
                     hl = "BlinkCmpKind99"
-                  elseif vim.tbl_contains({ "Supermaven" }, ctx.source_name) then
-                    hl = "BlinkCmpKindSupermaven"
                   elseif vim.tbl_contains({ "Path" }, ctx.source_name) then
                     local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
                     if dev_icon then
